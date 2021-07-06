@@ -12,7 +12,8 @@ const User = mongoose.model('User',{
     },
     Password : {
         type : String,
-        required : true
+        required : true,
+        firsttime : true
     },
     Usertype : {
         type : String,
