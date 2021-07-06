@@ -34,17 +34,27 @@ async function(req,res)
         
         const accountCreated = date.format(new Date(),date.compile('YYYY/MM/DD hh:mm:ss'));
 
-        const data = new Member({Firstname : firstname, Lastname : lastname, Status : status, Phonenumber : phonenumber,
-             Address : address, Comission : comission, Username : username, Password : password })
-        data.save()
-        .then(function(result)
-        {
-            res.status(201).json({message: "Member Added successfully !!", success:true, username : username, password : password});
+        Member.findOne({ Username: username })
+        .then(function (userDetails) {
+            if (userDetails === null) {
+                const data = new Member({Firstname : firstname, Lastname : lastname, Status : status, Phonenumber : phonenumber,
+                    Address : address, Comission : comission, Username : username, Password : password })
+               data.save()
+               .then(function(result)
+               {
+                   res.status(201).json({message: "Member Added successfully !!", success:true, username : username, password : password});
+               })
+               .catch(function(e)
+               {
+                   res.status(500).json({message: e})
+               });
+            }else{
+                return res.status(401).json({ message: "Username already exist.", success: false })
+            }
         })
-        .catch(function(e)
-        {
+        .catch(function(e){
             res.status(500).json({message: e})
-        });
+        })
     }
     else
     {

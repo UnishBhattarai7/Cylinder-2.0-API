@@ -27,7 +27,8 @@ const Member = mongoose.model('Member',{
     },
     Username : {
         type : String,
-        required : true
+        required : true,
+        unique : true
     },
     Password : {
         type : String
