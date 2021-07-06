@@ -69,8 +69,7 @@ router1.put('/changepassword', async function (req, res) {
 
     const Phonenumber = req.body.Phonenumber
     const Password = req.body.Password
-    const Npassword = req.body.Npassword
-    const hpassword = await bcryptjs.hash(Npassword, 10);
+    const Npassword = await bcryptjs.hash(req.body.Npassword, 10)
 
     User.findOne({ Phonenumber: Phonenumber })
         .then(function (userDetails) {
@@ -82,7 +81,7 @@ router1.put('/changepassword', async function (req, res) {
                     return res.status(401).json({ message: "Phone number and Password Do not Matched." })
                 }else{
                     User.findOneAndUpdate({Phonenumber : Phonenumber}, 
-                        {Password : hpassword})
+                        {Password : Npassword})
                     .then(function(result){
                         res.status(200).json({success : true, message : "Password Changed."})
                     })
