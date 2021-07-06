@@ -1,18 +1,18 @@
 const jwt = require('jsonwebtoken');
-const User = require('../Models/User')
+const Member = require('../Models/Member')
 
-module.exports.verifyUser = function(req,res,next)
+module.exports.verifyMember = function(req,res,next)
 {
     try
     {
         const token = req.headers.authorization.split(" ")[1];
         console.log(token);
         const data = jwt.verify(token, 'secretkey');
-        User.findOne({_id:data.UserID})
+        Member.findOne({_id:data.MemberID})
         .then(function(result)
         {
-            console.log("user id: ", data.UserID)
-            req.user = result;
+            console.log("member id: ", data.MemberID)
+            req.member = result;
             next();
         })
         .catch(function(result)
@@ -22,17 +22,17 @@ module.exports.verifyUser = function(req,res,next)
     }
     catch(e)
     {
-       return res.status(403).json({message: "Fail to authenticate User"});
+       return res.status(403).json({message: "Fail to authenticate Member"});
     }
 }
 
 module.exports.verifyAdmin = function(req,res,next)
 {
-    if(!req.user)
+    if(!req.member)
     {
-        return res.status(401).json({message: "User doesnot have access."})
+        return res.status(401).json({message: "Member doesnot have access."})
     }
-    else if(req.user.UserType!=="Admin")
+    else if(req.member.Status!=="Admin")
     {
         return res.status(401).json({message: "Permission denied."})
     }
