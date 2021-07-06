@@ -9,6 +9,7 @@ router2.post('/admin/profile/addMember',[
     check('Lastname', 'Enter Last Name').not().isEmpty(),
     check('Status', 'Who are  you?').not().isEmpty(),
     check('Phonenumber', 'Enter your phonenumber').not().isEmpty(),
+    check('Address', 'Enter your address').not().isEmpty(),
     check('Profitfromeachcylinder', 'What profit should be given?').not().isEmpty(),
 ],
 function(req,res)
@@ -22,10 +23,11 @@ function(req,res)
         const lastname = req.body.Lastname
         const status = req.body.Status
         const phonenumber = req.body.Phonenumber
+        const address = req.body.Address
         const profitfromeachcylinder = req.body.Profitfromeachcylinder
 
         const data = new AddMember({Firstname : firstname, Lastname : lastname, Status : status, Phonenumber : phonenumber,
-             Profitfromeachcylinder : profitfromeachcylinder})
+             Address : address, Profitfromeachcylinder : profitfromeachcylinder})
         data.save()
         .then(function(result)
         {
