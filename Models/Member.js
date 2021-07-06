@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const AddMember = mongoose.model('AddMember',{
+const Member = mongoose.model('Member',{
     Firstname : {
         type : String,
         required : true
@@ -21,10 +21,24 @@ const AddMember = mongoose.model('AddMember',{
         type : String,
         required : true
     },
-    Profitfromeachcylinder : {
+    Comission: {
         type : String,
         required : true
+    },
+    Username : {
+        type : String,
+        required : true
+    },
+    Password : {
+        type : String
+    },
+    isfirst : {
+        type : Boolean,
+        default : true
+    },
+    accountCreated : {
+        type : String
     }
 })
 
-module.exports = AddMember;
+module.exports = Member;
