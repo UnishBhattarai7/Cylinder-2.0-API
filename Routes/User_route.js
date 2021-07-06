@@ -64,3 +64,5 @@ router1.post('/login', function(req,res)
     })
     .catch()
 })
+
+module.exports = router1;
