@@ -30,15 +30,16 @@ async function(req,res)
         const comission = req.body.Comission
 
         const username = firstname + lastname 
-        const password =  await bcryptjs.hash(Math.floor(Math.random() * (100000000 - 10000000) + 10000000) + firstname, 10);
-        
+        const password =  Math.floor(Math.random() * (100000000 - 10000000) + 10000000) + firstname
+        const hpassword = await bcryptjs.hash(password, 10)
+
         const accountCreated = date.format(new Date(),date.compile('YYYY/MM/DD hh:mm:ss'));
 
         Member.findOne({ Username: username })
         .then(function (userDetails) {
             if (userDetails === null) {
                 const data = new Member({Firstname : firstname, Lastname : lastname, Status : status, Phonenumber : phonenumber,
-                    Address : address, Comission : comission, Username : username, Password : password })
+                    Address : address, Comission : comission, Username : username, Password : hpassword })
                data.save()
                .then(function(result)
                {
