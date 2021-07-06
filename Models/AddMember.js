@@ -21,7 +21,7 @@ const AddMember = mongoose.model('AddMember',{
         type : String,
         required : true
     },
-    Profitfromeachcylinder : {
+    Comission : {
         type : String,
         required : true
     }

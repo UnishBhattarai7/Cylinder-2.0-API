@@ -24,10 +24,11 @@ function(req,res)
         const status = req.body.Status
         const phonenumber = req.body.Phonenumber
         const address = req.body.Address
-        const profitfromeachcylinder = req.body.Profitfromeachcylinder
+        const comission = req.body.Comission
+
 
         const data = new AddMember({Firstname : firstname, Lastname : lastname, Status : status, Phonenumber : phonenumber,
-             Address : address, Profitfromeachcylinder : profitfromeachcylinder})
+             Address : address, Comission : comission})
         data.save()
         .then(function(result)
         {
