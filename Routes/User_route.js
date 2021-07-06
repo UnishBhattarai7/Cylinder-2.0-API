@@ -12,7 +12,7 @@ router1.post('/sign_up',[
 ],
 function(req,res)
 {
-    consile.log(req.body)
+    console.log(req.body)
     const errors = validationResult(req);
 
     if(errors.isEmpty())
