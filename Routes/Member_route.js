@@ -2,11 +2,12 @@ const express = require('express');
 const router2 = express.Router();
 const Member = require('../Models/Member');
 const bcryptjs = require('bcryptjs');
+const authUser = require('../middleware/authUser');
 const {check, validationResult} = require('express-validator');
 const date = require('date-and-time');
 const jwt = require('jsonwebtoken');
 
-router2.post('/admin/profile/addMember',[
+router2.post('/admin/profile/addMember', authUser.verifyMember, authUser.verifyAdmin, [
     check('Firstname', 'Enter First Name').not().isEmpty(),
     check('Lastname', 'Enter Last Name').not().isEmpty(),
     check('Status', 'Who are  you?').not().isEmpty(),
@@ -23,6 +24,9 @@ async function(req,res)
     {
         const firstname = req.body.Firstname
         const lastname = req.body.Lastname
+
+
+
         const status = req.body.Status
         const phonenumber = req.body.Phonenumber
         const address = req.body.Address
@@ -35,8 +39,8 @@ async function(req,res)
         const accountCreated = date.format(new Date(),date.compile('YYYY/MM/DD hh:mm:ss'));
 
         Member.findOne({ Username: username })
-        .then(function (userDetails) {
-            if (userDetails === null) {
+        .then(function (memberDetails) {
+            if (memberDetails === null) {
                 const data = new Member({Firstname : firstname, Lastname : lastname, Status : status, Phonenumber : phonenumber,
                     Address : address, Comission : comission, Username : username, Password : hpassword, accountCreated: accountCreated })
                data.save()
@@ -46,14 +50,14 @@ async function(req,res)
                })
                .catch(function(e)
                {
-                   res.status(500).json({message: e})
+                   res.status(500).json({message: e, success: false})
                });
             }else{
                 return res.status(401).json({ message: "Username already exist.", success: false })
             }
         })
         .catch(function(e){
-            res.status(500).json({message: e})
+            res.status(500).json({message: e, success: false})
         })
     }
     else
@@ -72,13 +76,13 @@ router2.post('/login',[
     .then(function(memberDetails){
         if(memberDetails === null)
         {
-            return res.status(401).json({message: "Unauthorised Member !!!"})
+            return res.status(401).json({message: "Unauthorised Member !!!", success: false})
         }
         bcryptjs.compare(req.body.Password, memberDetails.Password,function(err,cresult)
         {
             if(cresult == false)
             {
-                return res.status(401).json({message: "Username or Password Incorrect."})
+                return res.status(401).json({message: "Username or Password Incorrect.", success: false})
             }
             if(memberDetails.isfirst == true)
             {
@@ -86,7 +90,7 @@ router2.post('/login',[
             }
             const token = jwt.sign({MemberID : memberDetails._id}, 'secretkey')
 
-            return res.status(200).json({message: "Login Success", token:token, Usertype : memberDetails.Usertype, success:true})
+            return res.status(200).json({message: "Login Success", token:token, status : memberDetails.Status, success:true})
             
             /* Member.updateOne({Username: req.body.Username})
             .then(async function(res)
@@ -100,7 +104,7 @@ router2.post('/login',[
         })
     })
     .catch(function(e){
-        res.status(500).json({message: e})
+        res.status(500).json({message: e, success: false})
     })
 })
 
@@ -117,7 +121,7 @@ router2.put('/changepassword', async function (req, res) {
             }
             bcryptjs.compare(password, memberDetails.Password, function (err, result) {
                 if (result === false) {
-                    return res.status(401).json({ message: "Username or Password does not match."})
+                    return res.status(401).json({ message: "Username or Password does not match.", success: false})
                 }
                 else
                 {
@@ -127,7 +131,7 @@ router2.put('/changepassword', async function (req, res) {
                         res.status(200).json({success : true, message : "Password Changed."})
                     })
                     .catch(function(err){
-                        res.status(500).json({message : err})
+                        res.status(500).json({message : err, success: false})
                     })
                 }
             })
