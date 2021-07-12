@@ -13,7 +13,7 @@ router.post('/newMember',async function(req,res)
     const password =  Math.floor(Math.random() * (100000000 - 10000000) + 10000000) + first_name
     const hpassword = await bcryptjs.hash(password, 10)
     
-    const alreadyExist = await User.findOne({username:username})
+    const alreadyExist = await User.findOne({username:username});
     if(alreadyExist){
       return res.status(500).json({succes:false, message:"The employee you trying to add is already exist."})
     }

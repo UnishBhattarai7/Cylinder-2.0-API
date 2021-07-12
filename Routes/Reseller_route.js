@@ -35,7 +35,8 @@ router1.post('/newReseller', async function(req,res)
     res.status(200).json({
         message:"New reseller " + reseller_fullname + " added successfully. ", 
         success:true, 
-        reseller:resellerinfo});
+        reseller:resellerinfo
+    });
 });
 
 
