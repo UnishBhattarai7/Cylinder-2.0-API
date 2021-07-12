@@ -92,4 +92,48 @@ router.put('/changePassword', async function (req, res) {
         .catch()
 })
 
+//Showing list of Member
+router.get('/memberList',async function(req,res)
+{
+    await Member.find()
+    .then(function(result)
+    {
+        console.log(result);
+        if(!result)
+        {
+            res.status().json({
+                success:false, 
+                message:"There are no any member registered."})
+        };
+        res.status(200).json({
+            success:true, 
+            message:"List of Registered Member: ", 
+            list:result});
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+});
+
+
+//Showing Member Details
+router.get('/memberList/:id', async function(req,res)
+{
+    const id = req.params.id;
+    await Member.findOne({_id : id})
+    .then(function(result)
+    {
+        console.log(result);
+        res.status(200).json({
+            success:true, 
+            message:"Details of " + result.username, 
+            info:result});
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+});
+
 module.exports = router;
