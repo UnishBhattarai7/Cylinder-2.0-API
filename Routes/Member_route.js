@@ -7,7 +7,9 @@ const {check, validationResult} = require('express-validator');
 const date = require('date-and-time');
 const jwt = require('jsonwebtoken');
 
-router2.post('/admin/profile/addMember', authUser.verifyMember, authUser.verifyAdmin, [
+router2.post('/admin/profile/addMember',
+ authUser.verifyMember, authUser.verifyAdmin, 
+ [
     check('Firstname', 'Enter First Name').not().isEmpty(),
     check('Lastname', 'Enter Last Name').not().isEmpty(),
     check('Status', 'Who are  you?').not().isEmpty(),
@@ -42,7 +44,7 @@ async function(req,res)
         .then(function (memberDetails) {
             if (memberDetails === null) {
                 const data = new Member({Firstname : firstname, Lastname : lastname, Status : status, Phonenumber : phonenumber,
-                    Address : address, Comission : comission, Username : username, Password : hpassword, accountCreated: accountCreated })
+                    Address : address, Comission : comission, Username : username, Password : hpassword, isactive:true, accountCreated: accountCreated })
                data.save()
                .then(function(result)
                {
@@ -71,9 +73,13 @@ router2.post('/login',[
     check('Password', 'Enter Password').not().isEmpty(),
 ],function(req,res)
 {
+    console.log("aa")
+    console.log(req.body.Username)
     Member.findOne({Username:req.body.Username})
     
     .then(function(memberDetails){
+        
+        console.log(memberDetails)
         if(memberDetails === null)
         {
             return res.status(401).json({message: "Unauthorised Member !!!", success: false})
@@ -176,5 +182,72 @@ router2.put('/member/update/:id', async function(req,res)
         res.status(500).json({error:e});
     })
 });
+
+//Update Member Active or inactive
+router2.put('/member/isactivetoggle/:id', async function(req,res)
+{
+    const id = req.params.id
+    console.log(id)
+    await Member.findOne({_id : id})
+    .then(function(data){
+        if(!data)
+        {
+            return res.status(500).json({
+                success:false, 
+                message:"Id didn't match"
+            });
+        }
+        console.log(data);
+        if(data.isActive == true){
+            Member.findOneAndUpdate({_id:id},
+                    {
+                        isActive:false
+                    })
+            
+                .then(function(result)
+                {
+                    if(!result)
+                    {
+                        return res.status(500).json({
+                            success:false, 
+                            message:"db error"
+                        });
+                    }
+                    console.log(result);
+                    res.status(200).json({
+                        message: "Member " + result.Username + " is inactive now", 
+                        success:true,
+                        isActive:false
+                    });
+                })
+        }else{
+            Member.findOneAndUpdate({_id:id},
+                {
+                    isActive:true
+                })
+        
+            .then(function(result)
+            {
+                if(!result)
+                {
+                    return res.status(500).json({
+                        success:false, 
+                        message:"db error"
+                    });
+                }
+                console.log(result);
+                res.status(200).json({
+                    message: "Member " + result.username + " is active now", 
+                    success:true,
+                    isActive:true
+                });
+            })
+        }
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+})
 
 module.exports = router2;

@@ -117,4 +117,71 @@ router1.put('/company/update/:id', async function(req,res)
     });
 })
 
+//Update Company Active or inactive
+router1.put('/company/isactivetoggle/:id', async function(req,res)
+{
+    const id = req.params.id
+    console.log(id)
+    await Company.findOne({_id : id})
+    .then(function(data){
+        if(!data)
+        {
+            return res.status(500).json({
+                success:false, 
+                message:"Id didn't match"
+            });
+        }
+        console.log(data);
+        if(data.isActive == true){
+            Company.findOneAndUpdate({_id:id},
+                    {
+                        isActive:false
+                    })
+            
+                .then(function(result)
+                {
+                    if(!result)
+                    {
+                        return res.status(500).json({
+                            success:false, 
+                            message:"db error"
+                        });
+                    }
+                    console.log(result);
+                    res.status(200).json({
+                        message: "Company " + result.company_fullname + " is inactive now", 
+                        success:true,
+                        isActive:false
+                    });
+                })
+        }else{
+            Company.findOneAndUpdate({_id:id},
+                {
+                    isActive:true
+                })
+        
+            .then(function(result)
+            {
+                if(!result)
+                {
+                    return res.status(500).json({
+                        success:false, 
+                        message:"db error"
+                    });
+                }
+                console.log(result);
+                res.status(200).json({
+                    message: "Company " + result.company_fullname + " is active now", 
+                    success:true,
+                    isActive:true
+                });
+            })
+        }
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+})
+
 module.exports = router1;

@@ -121,4 +121,71 @@ router1.put('/reseller/update/:id', async function(req,res)
     })
 })
 
+//Update Reseller Active or inactive
+router1.put('/reseller/isactivetoggle/:id', async function(req,res)
+{
+    const id = req.params.id
+    console.log(id)
+    await Reseller.findOne({_id : id})
+    .then(function(data){
+        if(!data)
+        {
+            return res.status(500).json({
+                success:false, 
+                message:"Id didn't match"
+            });
+        }
+        console.log(data);
+        if(data.isActive == true){
+            Reseller.findOneAndUpdate({_id:id},
+                    {
+                        isActive:false
+                    })
+            
+                .then(function(result)
+                {
+                    if(!result)
+                    {
+                        return res.status(500).json({
+                            success:false, 
+                            message:"db error"
+                        });
+                    }
+                    console.log(result);
+                    res.status(200).json({
+                        message: "Reseller " + result.reseller_fullname + " is inactive now", 
+                        success:true,
+                        isActive:false
+                    });
+                })
+        }else{
+            Reseller.findOneAndUpdate({_id:id},
+                {
+                    isActive:true
+                })
+        
+            .then(function(result)
+            {
+                if(!result)
+                {
+                    return res.status(500).json({
+                        success:false, 
+                        message:"db error"
+                    });
+                }
+                console.log(result);
+                res.status(200).json({
+                    message: "Reseller " + result.reseller_fullname + " is active now", 
+                    success:true,
+                    isActive:true
+                });
+            })
+        }
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+})
+
 module.exports = router1;
