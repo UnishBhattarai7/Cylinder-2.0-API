@@ -37,6 +37,10 @@ const Member = mongoose.model('Member',{
         type : Boolean,
         default : true
     },
+    isActive:{
+        type : Boolean,
+        default : true
+    },
     accountCreated : {
         type : String
     }
