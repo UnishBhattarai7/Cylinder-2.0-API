@@ -139,4 +139,42 @@ router2.put('/changepassword', async function (req, res) {
         .catch()
 })
 
+router2.put('/member/update/:id', async function(req,res)
+{
+    const id = req.params.id
+    const firstname = req.body.Firstname
+    const lastname = req.body.Lastname
+    const status = req.body.Status
+    const phonenumber = req.body.Phonenumber
+    const address = req.body.Address
+    const comission = req.body.Comission
+    const username = req.body.Username
+    const password = req.body.Password
+
+    await Member.findOneAndUpdate({_id:id},{
+        firstname:firstname,
+        lastname:lastname,
+        status:status,
+        phonenumber:phonenumber,
+        address:address,
+        comission:comission,
+        username:username,
+        password:password
+    })
+
+    .then(function(result)
+    {
+        console.log(result);
+        res.status(200).json({
+            success:true,
+            message:"Member Details Updated..",
+            stats:result
+        })
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+});
+
 module.exports = router2;
