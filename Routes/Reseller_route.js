@@ -84,4 +84,41 @@ router1.get('/resellerList/:id', async function(req,res)
     })
 });
 
+//Update Reseller Details
+router1.put('/reseller/update/:id', async function(req,res)
+{
+    const id = req.params.id
+
+    const {reseller_fullname, pasal_name, address, phone_number} = req.body
+
+    await Reseller.findOneAndUpdate({_id:id},
+        {
+            reseller_fullname:reseller_fullname, 
+            pasal_name:pasal_name, 
+            address:address, 
+            phone_number:phone_number
+        })
+
+    .then(function(result)
+    {
+        if(!result)
+        {
+            return res.status(500).json({
+                success:false, 
+                message:"Please fill all required information."
+            });
+        }
+        console.log(result);
+        res.status(200).json({
+            message: "Reseller " + result.reseller_fullname + " Details Updated..", 
+            success:true,
+            status:result
+        });
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+})
+
 module.exports = router1;

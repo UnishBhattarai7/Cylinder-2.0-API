@@ -48,7 +48,7 @@ router1.get('/companyList',async function(req,res)
         console.log(result);
         if(!result)
         {
-            res.status().json({
+            res.status(500).json({
                 success:false, 
                 message:"There are no any companies registered."})
         };
@@ -82,5 +82,39 @@ router1.get('/companyList/:id', async function(req,res)
         res.status(500).json({error:e});
     })
 });
+
+//Update Company Details
+router1.put('/company/update/:id', async function(req,res)
+{
+    const id = req.params.id
+    const {company_fullname, cylinder_name, address, phone_number} = req.body
+
+    await Company.findOneAndUpdate({_id:id},
+        {company_fullname:company_fullname, 
+            cylinder_name:cylinder_name, 
+            address:address, 
+            phone_number:phone_number})
+
+    .then(function(result)
+    {
+        if(!result)
+        {
+            return res.status(500).json({
+                success:false, 
+                message:"Please fill all required information."
+            });
+        }
+        console.log(result);
+        res.status(200).json({
+            message: "Company Details Updated..", 
+            success:true,
+            status:result
+        });
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    });
+})
 
 module.exports = router1;
