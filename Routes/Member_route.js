@@ -55,7 +55,7 @@ async function(req,res)
                    res.status(500).json({message: e, success: false})
                });
             }else{
-                return res.status(401).json({ message: "Username already exist.", success: false })
+                return res.status(201).json({ message: "Username already exist.", success: false })
             }
         })
         .catch(function(e){
@@ -82,17 +82,17 @@ router2.post('/login',[
         console.log(memberDetails)
         if(memberDetails === null)
         {
-            return res.status(401).json({message: "Unauthorised Member !!!", success: false})
+            return res.status(201).json({message: "Unauthorised Member !!!", success: false})
         }
         bcryptjs.compare(req.body.Password, memberDetails.Password,function(err,cresult)
         {
             if(cresult == false)
             {
-                return res.status(401).json({message: "Username or Password Incorrect.", success: false})
+                return res.status(201).json({message: "Username or Password Incorrect.", success: false})
             }
             if(memberDetails.isfirst == true)
             {
-                return res.status(401).json({message: "Please change your default password.", success: false})
+                return res.status(201).json({message: "Please change your default password.", success: false})
             }
             const token = jwt.sign({MemberID : memberDetails._id}, 'secretkey')
 
@@ -123,11 +123,11 @@ router2.put('/changepassword', async function (req, res) {
     Member.findOne({ Username: username })
         .then(function (memberDetails) {
             if (memberDetails === null) {
-                return res.status(401).json({ message: "Invalid Username", success: false })
+                return res.status(201).json({ message: "Invalid Username", success: false })
             }
             bcryptjs.compare(password, memberDetails.Password, function (err, result) {
                 if (result === false) {
-                    return res.status(401).json({ message: "Username or Password does not match.", success: false})
+                    return res.status(201).json({ message: "Username or Password does not match.", success: false})
                 }
                 else
                 {
