@@ -7,7 +7,7 @@ const Company = require('../Models/Company');
 router1.post('/CompanyStock',async function(req, res)
 {
     await Company.findOne({_id:req.body.ID})
-    .then(function(CompanyDetails)
+    .then(async function(CompanyDetails)
     {
         console.log(CompanyDetails);
         const {CompanyID, Gas_state, Regular_Prima, Regular_Kamakhya, Regular_Suvidha, Regular_Others,
@@ -35,7 +35,7 @@ router1.post('/CompanyStock',async function(req, res)
             Remarks:Remarks
         })
         
-        const stockInfo = data.save()
+        const stockInfo = await data.save()
         console.log(stockInfo);
 
         if(!stockInfo)
