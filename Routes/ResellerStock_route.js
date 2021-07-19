@@ -6,8 +6,8 @@ const Reseller = require('../Models/Reseller');
 //Entering Stock Details
 router1.post('/resellerStock',async function(req, res)
 {
-    await Reseller.findOne({_id:req.body.ID})
-    .then(function(ResellerDetails)
+    await Reseller.findOne({_id:req.body.ResellerID})
+    .then(async function(ResellerDetails)
     {
         console.log(ResellerDetails);
         const {ResellerID, Gas_state, Regular_Prima, Regular_Kamakhya, Regular_Suvidha, Regular_Others,
@@ -35,7 +35,7 @@ router1.post('/resellerStock',async function(req, res)
             Remarks:Remarks
         })
         
-        const stockInfo = data.save()
+        const stockInfo = await data.save()
         console.log(stockInfo);
 
         if(!stockInfo)
@@ -47,7 +47,9 @@ router1.post('/resellerStock',async function(req, res)
         }
         res.status(200).json({
             success:true,
-            message: "Data entered in Stock."
+            message: "Data entered in Stock.",
+            resellerDetails:ResellerDetails,
+            info:stockInfo
         })
     })
     .catch(function(e)
