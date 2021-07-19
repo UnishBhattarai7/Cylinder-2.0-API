@@ -6,7 +6,7 @@ const Company = require('../Models/Company');
 //Entering Stock Details
 router1.post('/CompanyStock',async function(req, res)
 {
-    await Company.findOne({_id:req.body.ID})
+    await Company.findOne({_id:req.body.CompanyID})
     .then(async function(CompanyDetails)
     {
         console.log(CompanyDetails);
