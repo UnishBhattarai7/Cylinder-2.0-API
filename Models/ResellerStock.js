@@ -63,6 +63,10 @@ const ResellerStock = mongoose.model('ResellerStock',{
     StockAddedAt: {
         type: Date,
         default: Date.now,
+    },
+    Entryby : {
+        type : String,
+        required : true
     }
 })
 
