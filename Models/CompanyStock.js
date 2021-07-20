@@ -63,6 +63,10 @@ const CompanyStock = mongoose.model('CompanyStock',{
     StockAddedAt: {
         type: Date,
         default: Date.now,
+    },
+    Entryby : {
+        type : String,
+        required : true
     }
 })
 

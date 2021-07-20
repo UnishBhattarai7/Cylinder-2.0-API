@@ -13,7 +13,7 @@ router1.post('/resellerStock',async function(req, res)
         const {ResellerID, Gas_state, Regular_Prima, Regular_Kamakhya, Regular_Suvidha, Regular_Others,
             Leak_Prima, Leak_Kamakhya, Leak_Suvidha, Leak_Others,
             Sold_Prima, Sold_Kamakhya, Sold_Suvidha, Sold_Others,
-            SendOrReceive, Amount, Remarks} = req.body
+            SendOrReceive, Amount, Remarks, Entryby} = req.body
     
         const data = new ResellerStock({
             ResellerID:ResellerID,
@@ -32,7 +32,8 @@ router1.post('/resellerStock',async function(req, res)
             Sold_Others:Sold_Others,
             SendOrReceive:SendOrReceive,
             Amount:Amount,
-            Remarks:Remarks
+            Remarks:Remarks,
+            Entryby:Entryby
         })
         
         const stockInfo = await data.save()
