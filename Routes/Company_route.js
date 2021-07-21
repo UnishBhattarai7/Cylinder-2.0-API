@@ -55,7 +55,7 @@ router1.get('/companyList',async function(req,res)
         res.status(200).json({
             success:true, 
             message:"List of Registered Comapnies: ", 
-            list:result});
+            data:result});
     })
     .catch(function(e)
     {
