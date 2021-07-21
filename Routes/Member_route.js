@@ -145,6 +145,51 @@ router2.put('/changepassword', async function (req, res) {
         .catch()
 })
 
+//Showing list of Members
+router2.get('/memberList',async function(req,res)
+{
+    await Member.find()
+    .then(function(result)
+    {
+        console.log(result);
+        if(!result)
+        {
+            res.status(500).json({
+                success:false, 
+                message:"There are no any members registered."})
+        };
+        res.status(200).json({
+            success:true, 
+            message:"List of Registered Members: ", 
+            data:result});
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+});
+
+
+//Showing Member Details
+router2.get('/memberList/:id', async function(req,res)
+{
+    const id = req.params.id;
+    await Member.findOne({_id : id})
+    .then(function(result)
+    {
+        console.log(result);
+        res.status(200).json({
+            success:true, 
+            message:"Details of " + result.Firstname, 
+            info:result});
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+});
+
+
 router2.put('/member/update/:id', async function(req,res)
 {
     const id = req.params.id

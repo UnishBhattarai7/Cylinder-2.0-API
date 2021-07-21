@@ -56,7 +56,7 @@ router1.get('/resellerList',async function(req,res)
         res.status(200).json({
             success:true, 
             message:"List of Registered Reseller: ", 
-            list:result});
+            data:result});
     })
     .catch(function(e)
     {
