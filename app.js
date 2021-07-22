@@ -6,6 +6,8 @@ const member_route = require('./Routes/Member_route')
 const company_route = require('./Routes/Company_route')
 const reseller_route = require('./Routes/Reseller_route')
 const resellerstock_route = require('./Routes/ResellerStock_route')
+const companyStock_route = require('./Routes/CompanyStock_route')
+
 const cors = require('cors')
 
 const app = express();
@@ -16,6 +18,7 @@ app.use(member_route);
 app.use(company_route);
 app.use(reseller_route);
 app.use(resellerstock_route);
+app.use(companyStock_route);
 
 app.listen(90);
 
