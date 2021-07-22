@@ -10,12 +10,13 @@ router1.post('/CompanyStock',async function(req, res)
     .then(async function(CompanyDetails)
     {
         console.log(CompanyDetails);
-        const {CompanyID, Gas_state, Regular_Prima, Regular_Kamakhya, Regular_Suvidha, Regular_Others,
+        const {CompanyReceiptNo, CompanyID, Gas_state, Regular_Prima, Regular_Kamakhya, Regular_Suvidha, Regular_Others,
             Leak_Prima, Leak_Kamakhya, Leak_Suvidha, Leak_Others,
             Sold_Prima, Sold_Kamakhya, Sold_Suvidha, Sold_Others,
             SendOrReceive, Amount, Remarks, Entryby} = req.body
     
         const data = new CompanyStock({
+            CompanyReceiptNo:CompanyReceiptNo,
             CompanyID:CompanyID,
             Gas_state:Gas_state,
             Regular_Prima:Regular_Prima,
