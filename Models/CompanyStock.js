@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const CompanyStock = mongoose.model('CompanyStock',{
+    CompanyReceiptNo : {
+        type : String,
+        required : true
+    },
     CompanyID : {
         type : String,
         required : [true, "Enter ID"]
