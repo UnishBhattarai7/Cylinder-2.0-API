@@ -20,6 +20,10 @@ const Reseller = mongoose.model('Reseller',{
         required : [true, 'Enter phone number'],
         unique : true
     },
+    rateforReseller : {
+        type : String,
+        required : [true, 'Enter rate for reseller']
+    },
     isActive:{
         type : Boolean,
         default : true

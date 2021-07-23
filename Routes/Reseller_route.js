@@ -6,7 +6,7 @@ const Reseller = require('../Models/Reseller');
 //Adding New Reseller
 router1.post('/newReseller', async function(req,res)
 {
-    const {reseller_fullname, pasal_name, address, phone_number} = req.body
+    const {reseller_fullname, pasal_name, address, phone_number, rateforReseller} = req.body
 
     const alreadyExist = await Reseller.findOne({reseller_fullname : reseller_fullname})
     if(alreadyExist)
@@ -20,7 +20,8 @@ router1.post('/newReseller', async function(req,res)
         reseller_fullname : reseller_fullname,
         pasal_name : pasal_name,
         address : address,
-        phone_number : phone_number
+        phone_number : phone_number,
+        rateforReseller:rateforReseller
     });
 
     const resellerinfo = await data.save();
@@ -89,14 +90,15 @@ router1.put('/reseller/update/:id', async function(req,res)
 {
     const id = req.params.id
 
-    const {reseller_fullname, pasal_name, address, phone_number} = req.body
+    const {reseller_fullname, pasal_name, address, phone_number, rateforReseller} = req.body
 
     await Reseller.findOneAndUpdate({_id:id},
         {
             reseller_fullname:reseller_fullname, 
             pasal_name:pasal_name, 
             address:address, 
-            phone_number:phone_number
+            phone_number:phone_number,
+            rateforReseller:rateforReseller
         })
 
     .then(function(result)
