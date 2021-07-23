@@ -8,7 +8,7 @@ const date = require('date-and-time');
 const jwt = require('jsonwebtoken');
 
 router2.post('/admin/profile/addMember',
- authUser.verifyMember, authUser.verifyAdmin, 
+//  authUser.verifyMember, authUser.verifyAdmin, 
  [
     check('Firstname', 'Enter First Name').not().isEmpty(),
     check('Lastname', 'Enter Last Name').not().isEmpty(),
