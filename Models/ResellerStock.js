@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const ResellerStock = mongoose.model('ResellerStock',{
+    ResellerReceiptNo : {
+        type : String,
+        required : true
+    },
     ResellerID : {
         type : String,
         required : [true, "Enter ID"]

@@ -10,12 +10,13 @@ router1.post('/resellerStock',async function(req, res)
     .then(async function(ResellerDetails)
     {
         console.log(ResellerDetails);
-        const {ResellerID, Gas_state, Regular_Prima, Regular_Kamakhya, Regular_Suvidha, Regular_Others,
+        const {ResellerReceiptNo, ResellerID, Gas_state, Regular_Prima, Regular_Kamakhya, Regular_Suvidha, Regular_Others,
             Leak_Prima, Leak_Kamakhya, Leak_Suvidha, Leak_Others,
             Sold_Prima, Sold_Kamakhya, Sold_Suvidha, Sold_Others,
             SendOrReceive, Amount, Remarks} = req.body
     
         const data = new ResellerStock({
+            ResellerReceiptNo:ResellerReceiptNo,
             ResellerID:ResellerID,
             Gas_state:Gas_state,
             Regular_Prima:Regular_Prima,
