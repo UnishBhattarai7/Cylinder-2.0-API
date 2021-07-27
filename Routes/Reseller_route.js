@@ -50,7 +50,7 @@ router1.get('/resellerList',async function(req,res)
         console.log(result);
         if(!result)
         {
-            res.status().json({
+            res.status(201).json({
                 success:false, 
                 message:"There are no any reseller registered."})
         };
