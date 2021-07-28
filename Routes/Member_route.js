@@ -73,7 +73,6 @@ router2.post('/login',[
     check('Password', 'Enter Password').not().isEmpty(),
 ],function(req,res)
 {
-    console.log("aa")
     console.log(req.body.Username)
     Member.findOne({Username:req.body.Username})
     

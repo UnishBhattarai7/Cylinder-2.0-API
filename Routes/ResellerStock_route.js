@@ -91,7 +91,7 @@ router1.get('/resellerStockList', async function(req,res)
 router1.get('/resellerStockList/:id', async function(req,res)
 {
     const id = req.params.id
-
+    
     await ResellerStock.findOne({_id:id})
     .then(function(result)
     {
