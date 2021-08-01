@@ -366,7 +366,7 @@ router.get('/stockDetails', async function(req,res)
 
     //For Full Cylinder (Total Stock)
     var sFull_Prima_Send, sFull_Kamakhya_Send, sFull_Suvidha_Send, sFull_Others_Send;
-    await Stock.find({Gas_State:"Full", SendOrReceive:"Send"})
+    await Stock.find({Gas_state:"Full", SendOrReceive:"Send"})
     .then(function(result3aa)
     {
         for (i in result3aa)
@@ -387,7 +387,7 @@ router.get('/stockDetails', async function(req,res)
     })
 
     var sFull_Prima_Receive, sFull_Kamakhya_Receive, sFull_Suvidha_Receive, sFull_Others_Receive;
-    await Stock.find({Gas_State:"Full", SendOrReceive:"Receive"})
+    await Stock.find({Gas_state:"Full", SendOrReceive:"Receive"})
     .then(function(result3ab)
     {
         for (i in result3ab)
@@ -409,7 +409,7 @@ router.get('/stockDetails', async function(req,res)
 
     //For Half Cylinder (Total Stock)
     var sHalf_Prima_Send, sHalf_Kamakhya_Send, sHalf_Suvidha_Send, sHalf_Others_Send;
-    await Stock.find({Gas_State:"Half", SendOrReceive:"Send"})
+    await Stock.find({Gas_state:"Half", SendOrReceive:"Send"})
     .then(function(result3ba)
     {
         for (i in result3ba)
@@ -430,7 +430,7 @@ router.get('/stockDetails', async function(req,res)
     })
 
     var sHalf_Prima_Receive, sHalf_Kamakhya_Receive, sHalf_Suvidha_Receive, sHalf_Others_Receive;
-    await Stock.find({Gas_State:"Half", SendOrReceive:"Receive"})
+    await Stock.find({Gas_state:"Half", SendOrReceive:"Receive"})
     .then(function(result3bb)
     {
         for (i in result3bb)
@@ -452,7 +452,7 @@ router.get('/stockDetails', async function(req,res)
 
     //For Empty Cylinder (Total Stock)
     var sEmpty_Prima_Send, sEmpty_Kamakhya_Send, sEmpty_Suvidha_Send, sEmpty_Others_Send;
-    await Stock.find({Gas_State:"Empty", SendOrReceive:"Send"})
+    await Stock.find({Gas_state:"Empty", SendOrReceive:"Send"})
     .then(function(result3ca)
     {
         for (i in result3ca)
@@ -473,7 +473,7 @@ router.get('/stockDetails', async function(req,res)
     })
 
     var sEmpty_Prima_Receive, sEmpty_Kamakhya_Receive, sEmpty_Suvidha_Receive, sEmpty_Others_Receive;
-    await Stock.find({Gas_State:"Empty", SendOrReceive:"Receive"})
+    await Stock.find({Gas_state:"Empty", SendOrReceive:"Receive"})
     .then(function(result3cb)
     {
         for (i in result3cb)
@@ -602,7 +602,7 @@ router.post('/addStock', function(req,res)
     var EmptySend = {};
     
 
-    //For Full Gas State
+    //For Full Gas state
     if (etPrimaF > 0)
     {
         FullReceive["etPrimaF"] = etPrimaF 
