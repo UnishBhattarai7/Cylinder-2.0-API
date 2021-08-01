@@ -781,7 +781,7 @@ router.post('/addStock', function(req,res)
             Entryby:Entryby
         })
 
-        const fullreceiveinfo = await data.save();
+        const fullreceiveinfo = data.save();
 
         res.status(200).json({
             sucess:true,
@@ -845,7 +845,7 @@ router.post('/addStock', function(req,res)
             Entryby:Entryby
         })
 
-        const fullsendinfo = await data.save();
+        const fullsendinfo = data.save();
 
         res.status(200).json({
             sucess:true,
@@ -909,7 +909,7 @@ router.post('/addStock', function(req,res)
             Entryby:Entryby
         })
 
-        const halfreceiveinfo = await data.save();
+        const halfreceiveinfo = data.save();
 
         res.status(200).json({
             sucess:true,
@@ -973,7 +973,7 @@ router.post('/addStock', function(req,res)
             Entryby:Entryby
         })
 
-        const halfsendinfo = await data.save();
+        const halfsendinfo = data.save();
 
         res.status(200).json({
             sucess:true,
@@ -1037,7 +1037,7 @@ router.post('/addStock', function(req,res)
             Entryby:Entryby
         })
 
-        const emptyreceiveinfo = await data.save();
+        const emptyreceiveinfo = data.save();
 
         res.status(200).json({
             sucess:true,
@@ -1101,7 +1101,7 @@ router.post('/addStock', function(req,res)
             Entryby:Entryby
         })
 
-        const emptysendinfo = await data.save();
+        const emptysendinfo = data.save();
 
         res.status(200).json({
             sucess:true,
