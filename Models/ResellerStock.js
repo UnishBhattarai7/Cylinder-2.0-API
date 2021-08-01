@@ -70,7 +70,6 @@ const ResellerStock = mongoose.model('ResellerStock',{
     },
     Entryby : {
         type : String,
-        required : true
     }
 })
 

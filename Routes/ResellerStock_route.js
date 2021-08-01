@@ -10,11 +10,11 @@ router1.post('/resellerStock',async function(req, res)
     .then(async function(ResellerDetails)
     {
         console.log(ResellerDetails);
+        console.log("dta from body "+req.body.Gas_state)
         const {ResellerReceiptNo, ResellerID, Gas_state, Regular_Prima, Regular_Kamakhya, Regular_Suvidha, Regular_Others,
             Leak_Prima, Leak_Kamakhya, Leak_Suvidha, Leak_Others,
             Sold_Prima, Sold_Kamakhya, Sold_Suvidha, Sold_Others,
-            SendOrReceive, Amount, Remarks, Entryby} = req.body 
-    
+            SendOrReceive, Amount, Remarks} = req.body
         const data = new ResellerStock({
             ResellerReceiptNo:ResellerReceiptNo,
             ResellerID:ResellerID,
@@ -34,8 +34,8 @@ router1.post('/resellerStock',async function(req, res)
             SendOrReceive:SendOrReceive,
             Amount:Amount,
             Remarks:Remarks,
-            Entryby:Entryby
         })
+        console.log(data)
         
         const stockInfo = await data.save()
         console.log(stockInfo);
@@ -50,7 +50,6 @@ router1.post('/resellerStock',async function(req, res)
         res.status(200).json({
             success:true,
             message: "Data entered in Stock.",
-            resellerDetails:ResellerDetails,
             info:stockInfo
         })
     })
@@ -91,8 +90,9 @@ router1.get('/resellerStockList', async function(req,res)
 router1.get('/resellerStockList/:id', async function(req,res)
 {
     const id = req.params.id
+    console.log("reseller id :"+id)
     
-    await ResellerStock.findOne({_id:id})
+    await ResellerStock.findOne({ResellerID:id})
     .then(function(result)
     {
         console.log(result);
