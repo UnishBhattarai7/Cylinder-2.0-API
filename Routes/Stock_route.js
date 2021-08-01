@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const Stock = require('../Models/Stock');
 const ResellerStock = require('../Models/ResellerStock');
 const CompanyStock = require('../Models/CompanyStock');
 
-
+//Showing Stock Details
 router.get('/stockDetails', async function(req,res)
 {
     //For Full Cylinder (Reseller)
@@ -334,8 +335,8 @@ router.get('/stockDetails', async function(req,res)
     var cEmpty_Others = cEmpty_Others_Receive - cEmpty_Others_Send;
     
     console.log("cFull_Prima Total", cFull_Prima);
-    console.log("cFull_Prima Total", cHalf_Prima);
-    console.log("cFull_Prima Total", cEmpty_Prima);
+    console.log("cHalf_Prima Total", cHalf_Prima);
+    console.log("cEmpty_Prima Total", cEmpty_Prima);
     
     console.log("cFull_Kamakhya Total", cFull_Kamakhya);
     console.log("cHalf_Kamakhya Total", cHalf_Kamakhya);
@@ -350,20 +351,199 @@ router.get('/stockDetails', async function(req,res)
     console.log("cEmpty_Others Total", cEmpty_Others);
 
 
-    var Full_Prima = cFull_Prima - rFull_Prima
-    var Full_Kamakhya = cFull_Kamakhya - rFull_Kamakhya
-    var Full_Suvidha = cFull_Suvidha - rFull_Suvidha
-    var Full_Others = cFull_Others - rFull_Others
 
-    var Half_Prima = cHalf_Prima - rHalf_Prima
-    var Half_Kamakhya = cHalf_Kamakhya - rHalf_Kamakhya
-    var Half_Suvidha = cHalf_Suvidha - rHalf_Suvidha
-    var Half_Others = cHalf_Others - rHalf_Others
 
-    var Empty_Prima = cEmpty_Prima - rEmpty_Prima
-    var Empty_Kamakhya = cEmpty_Kamakhya - rEmpty_Kamakhya
-    var Empty_Suvidha = cEmpty_Suvidha - rEmpty_Suvidha
-    var Empty_Others = cEmpty_Others - rEmpty_Others
+
+
+
+
+
+
+
+
+
+
+
+    //For Full Cylinder (Total Stock)
+    var sFull_Prima_Send, sFull_Kamakhya_Send, sFull_Suvidha_Send, sFull_Others_Send;
+    await Stock.find({Gas_State:"Full", SendOrReceive:"Send"})
+    .then(function(result3aa)
+    {
+        for (i in result3aa)
+        {
+            sFull_Prima_Send = result3aa[i].Regular_Prima + result3aa[i].Leak_Prima + result3aa[i].Sold_Prima;
+            sFull_Kamakhya_Send = result3aa[i].Regular_Kamakhya + result3aa[i].Leak_Kamakhya + result3aa[i].Sold_Kamakhya;
+            sFull_Suvidha_Send = result3aa[i].Regular_Suvidha + result3aa[i].Leak_Suvidha + result3aa[i].Sold_Suvidha;
+            sFull_Others_Send = result3aa[i].Regular_Others + result3aa[i].Leak_Others + result3aa[i].Sold_Others; 
+        }
+        console.log("sPrima Full (Send): ", sFull_Prima_Send);
+        console.log("sKamakhya Full (Send): ", sFull_Kamakhya_Send);
+        console.log("sSuvidha Full (Send): ", sFull_Suvidha_Send);
+        console.log("sOthers Full (Send): ", sFull_Others_Send);
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e})
+    })
+
+    var sFull_Prima_Receive, sFull_Kamakhya_Receive, sFull_Suvidha_Receive, sFull_Others_Receive;
+    await Stock.find({Gas_State:"Full", SendOrReceive:"Receive"})
+    .then(function(result3ab)
+    {
+        for (i in result3ab)
+        {
+            sFull_Prima_Receive = result3ab[i].Regular_Prima + result3ab[i].Leak_Prima + result3ab[i].Sold_Prima;
+            sFull_Kamakhya_Receive = result3ab[i].Regular_Kamakhya + result3ab[i].Leak_Kamakhya + result3ab[i].Sold_Kamakhya;
+            sFull_Suvidha_Receive = result3ab[i].Regular_Suvidha + result3ab[i].Leak_Suvidha + result3ab[i].Sold_Suvidha;
+            sFull_Others_Receive = result3ab[i].Regular_Others + result3ab[i].Leak_Others + result3ab[i].Sold_Others; 
+        }
+        console.log("sPrima Full (Receive): ", sFull_Prima_Receive);
+        console.log("sKamakhya Full (Receive): ", sFull_Kamakhya_Receive);
+        console.log("sSuvidha Full (Receive): ", sFull_Suvidha_Receive);
+        console.log("sOthers Full (Receive): ", sFull_Others_Receive);
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e})
+    })
+
+    //For Half Cylinder (Total Stock)
+    var sHalf_Prima_Send, sHalf_Kamakhya_Send, sHalf_Suvidha_Send, sHalf_Others_Send;
+    await Stock.find({Gas_State:"Half", SendOrReceive:"Send"})
+    .then(function(result3ba)
+    {
+        for (i in result3ba)
+        {
+            sHalf_Prima_Send = result3ba[i].Regular_Prima + result3ba[i].Leak_Prima + result3ba[i].Sold_Prima;
+            sHalf_Kamakhya_Send = result3ba[i].Regular_Kamakhya + result3ba[i].Leak_Kamakhya + result3ba[i].Sold_Kamakhya;
+            sHalf_Suvidha_Send = result3ba[i].Regular_Suvidha + result3ba[i].Leak_Suvidha + result3ba[i].Sold_Suvidha;
+            sHalf_Others_Send = result3ba[i].Regular_Others + result3ba[i].Leak_Others + result3ba[i].Sold_Others; 
+        }
+        console.log("sPrima Half (Send): ", sHalf_Prima_Send);
+        console.log("sKamakhya Half (Send): ", sHalf_Kamakhya_Send);
+        console.log("sSuvidha Half (Send): ", sHalf_Suvidha_Send);
+        console.log("sOthers Half (Send): ", sHalf_Others_Send);
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e})
+    })
+
+    var sHalf_Prima_Receive, sHalf_Kamakhya_Receive, sHalf_Suvidha_Receive, sHalf_Others_Receive;
+    await Stock.find({Gas_State:"Half", SendOrReceive:"Receive"})
+    .then(function(result3bb)
+    {
+        for (i in result3bb)
+        {
+            sHalf_Prima_Receive = result3bb[i].Regular_Prima + result3bb[i].Leak_Prima + result3bb[i].Sold_Prima;
+            sHalf_Kamakhya_Receive = result3bb[i].Regular_Kamakhya + result3bb[i].Leak_Kamakhya + result3bb[i].Sold_Kamakhya;
+            sHalf_Suvidha_Receive = result3bb[i].Regular_Suvidha + result3bb[i].Leak_Suvidha + result3bb[i].Sold_Suvidha;
+            sHalf_Others_Receive = result3bb[i].Regular_Others + result3bb[i].Leak_Others + result3bb[i].Sold_Others; 
+        }
+        console.log("sPrima Half (Receive): ", sHalf_Prima_Receive);
+        console.log("sKamakhya Half (Receive): ", sHalf_Kamakhya_Receive);
+        console.log("sSuvidha Half (Receive): ", sHalf_Suvidha_Receive);
+        console.log("sOthers Half (Receive): ", sHalf_Others_Receive);
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e})
+    })
+
+    //For Empty Cylinder (Total Stock)
+    var sEmpty_Prima_Send, sEmpty_Kamakhya_Send, sEmpty_Suvidha_Send, sEmpty_Others_Send;
+    await Stock.find({Gas_State:"Empty", SendOrReceive:"Send"})
+    .then(function(result3ca)
+    {
+        for (i in result3ca)
+        {
+            sEmpty_Prima_Send = result3ca[i].Regular_Prima + result3ca[i].Leak_Prima + result3ca[i].Sold_Prima;
+            sEmpty_Kamakhya_Send = result3ca[i].Regular_Kamakhya + result3ca[i].Leak_Kamakhya + result3ca[i].Sold_Kamakhya;
+            sEmpty_Suvidha_Send = result3ca[i].Regular_Suvidha + result3ca[i].Leak_Suvidha + result3ca[i].Sold_Suvidha;
+            sEmpty_Others_Send = result3ca[i].Regular_Others + result3ca[i].Leak_Others + result3ca[i].Sold_Others; 
+        }
+        console.log("sPrima Empty (Send): ", sEmpty_Prima_Send);
+        console.log("sKamakhya Empty (Send): ", sEmpty_Kamakhya_Send);
+        console.log("sSuvidha Empty (Send): ", sEmpty_Suvidha_Send);
+        console.log("sOthers Empty (Send): ", sEmpty_Others_Send);
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e})
+    })
+
+    var sEmpty_Prima_Receive, sEmpty_Kamakhya_Receive, sEmpty_Suvidha_Receive, sEmpty_Others_Receive;
+    await Stock.find({Gas_State:"Empty", SendOrReceive:"Receive"})
+    .then(function(result3cb)
+    {
+        for (i in result3cb)
+        {
+            sEmpty_Prima_Receive = result3cb[i].Regular_Prima + result3cb[i].Leak_Prima + result3cb[i].Sold_Prima;
+            sEmpty_Kamakhya_Receive = result3cb[i].Regular_Kamakhya + result3cb[i].Leak_Kamakhya + result3cb[i].Sold_Kamakhya;
+            sEmpty_Suvidha_Receive = result3cb[i].Regular_Suvidha + result3cb[i].Leak_Suvidha + result3cb[i].Sold_Suvidha;
+            sEmpty_Others_Receive = result3cb[i].Regular_Others + result3cb[i].Leak_Others + result3cb[i].Sold_Others; 
+        }
+        console.log("sPrima Empty (Receive): ", sEmpty_Prima_Receive);
+        console.log("sKamakhya Empty (Receive): ", sEmpty_Kamakhya_Receive);
+        console.log("sSuvidha Empty (Receive): ", sEmpty_Suvidha_Receive);
+        console.log("sOthers Empty (Receive): ", sEmpty_Others_Receive);
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e})
+    })
+
+    var sFull_Prima = sFull_Prima_Receive - sFull_Prima_Send;
+    var sHalf_Prima = sHalf_Prima_Receive - sHalf_Prima_Send;
+    var sEmpty_Prima = sEmpty_Prima_Receive - sEmpty_Prima_Send;
+
+    var sFull_Kamakhya = sFull_Kamakhya_Receive - sFull_Kamakhya_Send;
+    var sHalf_Kamakhya = sHalf_Kamakhya_Receive - sHalf_Kamakhya_Send;
+    var sEmpty_Kamakhya = sEmpty_Kamakhya_Receive - sEmpty_Kamakhya_Send;
+
+    var sFull_Suvidha = sFull_Suvidha_Receive - sFull_Suvidha_Send;
+    var sHalf_Suvidha = sHalf_Suvidha_Receive - sHalf_Suvidha_Send;
+    var sEmpty_Suvidha = sEmpty_Suvidha_Receive - sEmpty_Suvidha_Send;
+
+    var sFull_Others = sFull_Others_Receive - sFull_Others_Send;
+    var sHalf_Others = sHalf_Others_Receive - sHalf_Others_Send;
+    var sEmpty_Others = sEmpty_Others_Receive - sEmpty_Others_Send;
+    
+    console.log("sFull_Prima Total", sFull_Prima);
+    console.log("sHalf_Prima Total", sHalf_Prima);
+    console.log("sEmpty_Prima Total", sEmpty_Prima);
+    
+    console.log("sFull_Kamakhya Total", sFull_Kamakhya);
+    console.log("sHalf_Kamakhya Total", sHalf_Kamakhya);
+    console.log("sEmpty_Kamakhya Total", sEmpty_Kamakhya);
+
+    console.log("sFull_Suvidha Total", sFull_Suvidha);
+    console.log("sHalf_Suvidha Total", sHalf_Suvidha);
+    console.log("sEmpty_Suvidha Total", sEmpty_Suvidha);
+    
+    console.log("sFull_Others Total", sFull_Others);
+    console.log("sHalf_Others Total", sHalf_Others);
+    console.log("sEmpty_Others Total", sEmpty_Others);
+
+
+
+
+
+    //Total calculation of Stock
+    var Full_Prima = cFull_Prima - rFull_Prima + sFull_Prima
+    var Full_Kamakhya = cFull_Kamakhya - rFull_Kamakhya + sFull_Kamakhya
+    var Full_Suvidha = cFull_Suvidha - rFull_Suvidha + sFull_Suvidha
+    var Full_Others = cFull_Others - rFull_Others + sFull_Others
+
+    var Half_Prima = cHalf_Prima - rHalf_Prima + sHalf_Prima
+    var Half_Kamakhya = cHalf_Kamakhya - rHalf_Kamakhya + sHalf_Kamakhya
+    var Half_Suvidha = cHalf_Suvidha - rHalf_Suvidha + sHalf_Suvidha
+    var Half_Others = cHalf_Others - rHalf_Others + sHalf_Others
+
+    var Empty_Prima = cEmpty_Prima - rEmpty_Prima + sEmpty_Prima
+    var Empty_Kamakhya = cEmpty_Kamakhya - rEmpty_Kamakhya + sEmpty_Kamakhya
+    var Empty_Suvidha = cEmpty_Suvidha - rEmpty_Suvidha + sEmpty_Suvidha
+    var Empty_Others = cEmpty_Others - rEmpty_Others + sEmpty_Others
 
     console.log("Full Prima: ",Full_Prima);
     console.log("Full_Kamakhya: ",Full_Kamakhya);
@@ -397,6 +577,540 @@ router.get('/stockDetails', async function(req,res)
         etOthersH: Half_Others,
         etOthersE: Empty_Others,
     })
+});
+
+
+
+
+//Updating Stock Details
+router.post('/addStock', function(req,res)
+{
+    const {etPrimaF, etPrimaH, etPrimaE,
+    etKamakhyaF, etKamakhyaH, etKamakhyaE,
+    etSuvidhaF, etSuvidhaH, etSuvidhaE,
+    etOthersF, etOthersH, etOthersE, Entryby} = req.body
+
+    // { 11, -10, 20, 5, 2, -1, 4, 0, 0, 0, -3, 2, Roshan }
+    
+    var ResellerID = "123456abcd";    //Data comes from Authentication 
+    var SendOrReceive;
+    var FullReceive = {};
+    var FullSend = {};
+    var HalfReceive = {};
+    var HalfSend = {};
+    var EmptyReceive = {};
+    var EmptySend = {};
+    
+
+    //For Full Gas State
+    if (etPrimaF > 0)
+    {
+        FullReceive["etPrimaF"] = etPrimaF 
+    }
+    else if (etPrimaF < 0)
+    {
+        FullSend["etPrimaF"] = etPrimaF
+    }
+
+    if (etKamakhyaF > 0)
+    {
+        FullReceive["etKamakhyaF"] = etKamakhyaF
+    }
+    else if (etKamakhyaF < 0)
+    {
+        FullSend["etKamakhyaF"] = etKamakhyaF
+    }
+
+    if (etSuvidhaF > 0)
+    {
+        FullReceive["etSuvidhaF"] = etSuvidhaF
+    }
+    else if (etSuvidhaF < 0)
+    {
+        FullSend["etSuvidhaF"] = etSuvidhaF
+    }
+
+    if (etOthersF > 0)
+    {
+        FullReceive["etOthersF"] = etOthersF
+    }
+    else if (etOthersF < 0)
+    {
+        FullSend["etOthersF"] = etOthersF
+    }
+
+    //For Half Gas State
+    if (etPrimaH > 0)
+    {
+        HalfReceive["etPrimaH"] = etPrimaH 
+    }
+    else if (etPrimaH < 0)
+    {
+        HalfSend["etPrimaH"] = etPrimaH
+    }
+
+    if (etKamakhyaH > 0)
+    {
+        HalfReceive["etKamakhyaH"] = etKamakhyaH
+    }
+    else if (etKamakhyaH < 0)
+    {
+        HalfSend["etKamakhyaH"] = etKamakhyaH
+    }
+
+    if (etSuvidhaH > 0)
+    {
+        HalfReceive["etSuvidhaH"] = etSuvidhaH
+    }
+    else if (etSuvidhaH < 0)
+    {
+        HalfSend["etSuvidhaH"] = etSuvidhaH
+    }
+
+    if (etOthersH > 0)
+    {
+        HalfReceive["etOthersH"] = etOthersH
+    }
+    else if (etOthersH < 0)
+    {
+        HalfSend["etOthersH"] = etOthersH
+    }
+
+    //For Empty Gas State
+    if (etPrimaE > 0)
+    {
+        EmptyReceive["etPrimaE"] = etPrimaE 
+    }
+    else if (etPrimaE < 0)
+    {
+        EmptySend["etPrimaE"] = etPrimaE
+    }
+
+    if (etKamakhyaE > 0)
+    {
+        EmptyReceive["etKamakhyaE"] = etKamakhyaE
+    }
+    else if (etKamakhyaE < 0)
+    {
+        EmptySend["etKamakhyaE"] = etKamakhyaE
+    }
+
+    if (etSuvidhaE > 0)
+    {
+        EmptyReceive["etSuvidhaE"] = etSuvidhaE
+    }
+    else if (etSuvidhaE < 0)
+    {
+        EmptySend["etSuvidhaE"] = etSuvidhaE
+    }
+
+    if (etOthersE > 0)
+    {
+        EmptyReceive["etOthersE"] = etOthersE
+    }
+    else if (etOthersE < 0)
+    {
+        EmptySend["etOthersE"] = etOthersE
+    }
+
+    console.log(FullReceive);
+    console.log(Object.Keys(FullReceive));
+    console.log(FullSend);
+    console.log(HalfReceive);
+    console.log(HalfSend);
+    console.log(EmptyReceive);
+    console.log(EmptySend);
+
+    //Function for checking empty array.
+    function isObjectEmpty(x) {
+        return Object.keys(x).length === 0;
+    }
+
+    //For FullReceive
+    if (isObjectEmpty(FullReceive) == false)
+    {
+            var Regular_Prima_check = FullReceive["etPrimaF"]
+            var Regular_Kamakhya_check = FullReceive["etKamakhyaF"]
+            var Regular_Suvidha_check = FullReceive["etSuvidhaF"]
+            var Regular_Others_check = FullReceive["etOthersF"]
+
+            if(Regular_Prima_check == 0)
+            {
+                Regular_Prima = 0
+            }
+            else
+            {
+                Regular_Prima = Regular_Prima_check
+            }
+
+            if(Regular_Kamakhya_check == 0)
+            {
+                Regular_Kamakhya = 0
+            }
+            else
+            {
+                Regular_Kamakhya = Regular_Kamakhya_check
+            }
+
+            if(Regular_Suvidha_check == 0)
+            {
+                Regular_Suvidha = 0
+            }
+            else
+            {
+                Regular_Suvidha = Regular_Suvidha_check
+            }
+
+            if(Regular_Others_check == 0)
+            {
+                Regular_Others = 0
+            }
+            else
+            {
+                Regular_Others = Regular_Others_check
+            }
+
+        const data = new Stock({
+            ResellerID:"123456",
+            Gas_state:"Full",
+            Regular_Prima:Regular_Prima,
+            Regular_Kamakhya:Regular_Kamakhya,
+            Regular_Suvidha:Regular_Suvidha,
+            Regular_Others:Regular_Others,
+            SendOrReceive:"Receive",
+            Entryby:Entryby
+        })
+
+        const fullreceiveinfo = await data.save();
+
+        res.status(200).json({
+            sucess:true,
+            message:"Stock Updated.",
+            data : fullreceiveinfo
+        })
+    }
+
+    //For FullSend
+    if (isObjectEmpty(FullSend) == false)
+    {
+            var Regular_Prima_check = FullSend["etPrimaF"]
+            var Regular_Kamakhya_check = FullSend["etKamakhyaF"]
+            var Regular_Suvidha_check = FullSend["etSuvidhaF"]
+            var Regular_Others_check = FullSend["etOthersF"]
+
+            if(Regular_Prima_check == 0)
+            {
+                Regular_Prima = 0
+            }
+            else
+            {
+                Regular_Prima = Regular_Prima_check
+            }
+
+            if(Regular_Kamakhya_check == 0)
+            {
+                Regular_Kamakhya = 0
+            }
+            else
+            {
+                Regular_Kamakhya = Regular_Kamakhya_check
+            }
+
+            if(Regular_Suvidha_check == 0)
+            {
+                Regular_Suvidha = 0
+            }
+            else
+            {
+                Regular_Suvidha = Regular_Suvidha_check
+            }
+
+            if(Regular_Others_check == 0)
+            {
+                Regular_Others = 0
+            }
+            else
+            {
+                Regular_Others = Regular_Others_check
+            }
+
+        const data = new Stock({
+            ResellerID:"123456",
+            Gas_state:"Full",
+            Regular_Prima:Regular_Prima,
+            Regular_Kamakhya:Regular_Kamakhya,
+            Regular_Suvidha:Regular_Suvidha,
+            Regular_Others:Regular_Others,
+            SendOrReceive:"Send",
+            Entryby:Entryby
+        })
+
+        const fullsendinfo = await data.save();
+
+        res.status(200).json({
+            sucess:true,
+            message:"Stock Updated.",
+            data : fullsendinfo
+        })
+    }
+
+    //For HalfReceive
+    if (isObjectEmpty(HalfReceive) == false)
+    {
+            var Regular_Prima_check = HalfReceive["etPrimaH"]
+            var Regular_Kamakhya_check = HalfReceive["etKamakhyaH"]
+            var Regular_Suvidha_check = HalfReceive["etSuvidhaH"]
+            var Regular_Others_check = HalfReceive["etOthersH"]
+
+            if(Regular_Prima_check == 0)
+            {
+                Regular_Prima = 0
+            }
+            else
+            {
+                Regular_Prima = Regular_Prima_check
+            }
+
+            if(Regular_Kamakhya_check == 0)
+            {
+                Regular_Kamakhya = 0
+            }
+            else
+            {
+                Regular_Kamakhya = Regular_Kamakhya_check
+            }
+
+            if(Regular_Suvidha_check == 0)
+            {
+                Regular_Suvidha = 0
+            }
+            else
+            {
+                Regular_Suvidha = Regular_Suvidha_check
+            }
+
+            if(Regular_Others_check == 0)
+            {
+                Regular_Others = 0
+            }
+            else
+            {
+                Regular_Others = Regular_Others_check
+            }
+
+        const data = new Stock({
+            ResellerID:"123456",
+            Gas_state:"Half",
+            Regular_Prima:Regular_Prima,
+            Regular_Kamakhya:Regular_Kamakhya,
+            Regular_Suvidha:Regular_Suvidha,
+            Regular_Others:Regular_Others,
+            SendOrReceive:"Receive",
+            Entryby:Entryby
+        })
+
+        const halfreceiveinfo = await data.save();
+
+        res.status(200).json({
+            sucess:true,
+            message:"Stock Updated.",
+            data : halfreceiveinfo
+        })
+    }
+
+    //For HalfSend
+    if (isObjectEmpty(HalfSend) == false)
+    {
+            var Regular_Prima_check = HalfSend["etPrimaH"]
+            var Regular_Kamakhya_check = HalfSend["etKamakhyaH"]
+            var Regular_Suvidha_check = HalfSend["etSuvidhaH"]
+            var Regular_Others_check = HalfSend["etOthersH"]
+
+            if(Regular_Prima_check == 0)
+            {
+                Regular_Prima = 0
+            }
+            else
+            {
+                Regular_Prima = Regular_Prima_check
+            }
+
+            if(Regular_Kamakhya_check == 0)
+            {
+                Regular_Kamakhya = 0
+            }
+            else
+            {
+                Regular_Kamakhya = Regular_Kamakhya_check
+            }
+
+            if(Regular_Suvidha_check == 0)
+            {
+                Regular_Suvidha = 0
+            }
+            else
+            {
+                Regular_Suvidha = Regular_Suvidha_check
+            }
+
+            if(Regular_Others_check == 0)
+            {
+                Regular_Others = 0
+            }
+            else
+            {
+                Regular_Others = Regular_Others_check
+            }
+
+        const data = new Stock({
+            ResellerID:"123456",
+            Gas_state:"Half",
+            Regular_Prima:Regular_Prima,
+            Regular_Kamakhya:Regular_Kamakhya,
+            Regular_Suvidha:Regular_Suvidha,
+            Regular_Others:Regular_Others,
+            SendOrReceive:"Send",
+            Entryby:Entryby
+        })
+
+        const halfsendinfo = await data.save();
+
+        res.status(200).json({
+            sucess:true,
+            message:"Stock Updated.",
+            data : halfsendinfo
+        })
+    }
+
+    //For EmptyReceive
+    if (isObjectEmpty(EmptyReceive) == false)
+    {
+            var Regular_Prima_check = EmptyReceive["etPrimaE"]
+            var Regular_Kamakhya_check = EmptyReceive["etKamakhyaE"]
+            var Regular_Suvidha_check = EmptyReceive["etSuvidhaE"]
+            var Regular_Others_check = EmptyReceive["etOthersE"]
+
+            if(Regular_Prima_check == 0)
+            {
+                Regular_Prima = 0
+            }
+            else
+            {
+                Regular_Prima = Regular_Prima_check
+            }
+
+            if(Regular_Kamakhya_check == 0)
+            {
+                Regular_Kamakhya = 0
+            }
+            else
+            {
+                Regular_Kamakhya = Regular_Kamakhya_check
+            }
+
+            if(Regular_Suvidha_check == 0)
+            {
+                Regular_Suvidha = 0
+            }
+            else
+            {
+                Regular_Suvidha = Regular_Suvidha_check
+            }
+
+            if(Regular_Others_check == 0)
+            {
+                Regular_Others = 0
+            }
+            else
+            {
+                Regular_Others = Regular_Others_check
+            }
+
+        const data = new Stock({
+            ResellerID:"123456",
+            Gas_state:"Empty",
+            Regular_Prima:Regular_Prima,
+            Regular_Kamakhya:Regular_Kamakhya,
+            Regular_Suvidha:Regular_Suvidha,
+            Regular_Others:Regular_Others,
+            SendOrReceive:"Receive",
+            Entryby:Entryby
+        })
+
+        const emptyreceiveinfo = await data.save();
+
+        res.status(200).json({
+            sucess:true,
+            message:"Stock Updated.",
+            data : emptyreceiveinfo
+        })
+    }
+
+    //For EmptySend
+    if (isObjectEmpty(EmptySend) == false)
+    {
+            var Regular_Prima_check = EmptySend["etPrimaE"]
+            var Regular_Kamakhya_check = EmptySend["etKamakhyaE"]
+            var Regular_Suvidha_check = EmptySend["etSuvidhaE"]
+            var Regular_Others_check = EmptySend["etOthersE"]
+
+            if(Regular_Prima_check == 0)
+            {
+                Regular_Prima = 0
+            }
+            else
+            {
+                Regular_Prima = Regular_Prima_check
+            }
+
+            if(Regular_Kamakhya_check == 0)
+            {
+                Regular_Kamakhya = 0
+            }
+            else
+            {
+                Regular_Kamakhya = Regular_Kamakhya_check
+            }
+
+            if(Regular_Suvidha_check == 0)
+            {
+                Regular_Suvidha = 0
+            }
+            else
+            {
+                Regular_Suvidha = Regular_Suvidha_check
+            }
+
+            if(Regular_Others_check == 0)
+            {
+                Regular_Others = 0
+            }
+            else
+            {
+                Regular_Others = Regular_Others_check
+            }
+
+        const data = new Stock({
+            ResellerID:"123456",
+            Gas_state:"Empty",
+            Regular_Prima:Regular_Prima,
+            Regular_Kamakhya:Regular_Kamakhya,
+            Regular_Suvidha:Regular_Suvidha,
+            Regular_Others:Regular_Others,
+            SendOrReceive:"Send",
+            Entryby:Entryby
+        })
+
+        const emptysendinfo = await data.save();
+
+        res.status(200).json({
+            sucess:true,
+            message:"Stock Updated.",
+            data : emptysendinfo
+        })
+    }
+
+        
 });
 
 
