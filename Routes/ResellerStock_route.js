@@ -42,7 +42,7 @@ router1.post('/resellerStock',async function(req, res)
 
         if(!stockInfo)
         {
-            res.status(201).json({
+            return res.status(400).json({
                 success:false,
                 message:"Please fill all required information."
             })

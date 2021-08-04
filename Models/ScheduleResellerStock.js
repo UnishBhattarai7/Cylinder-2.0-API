@@ -56,9 +56,13 @@ const ScheduleResellerStock = mongoose.model('ScheduleResellerStock',{
         type : String,
         required : [true, "Enter your opinion"]
     },
-    scheduledFor:{
+    scheduledDate:{
         type: Date,
         required = true
+    },
+    scheduledTime:{
+        type: Number,
+        required:true
     },
     createdAt: {
         type: Date,
