@@ -63,7 +63,7 @@ router.post('/schedule/resellerStock', async function(req, res){
 })
 
 router.get('/schedule/resellerStock', async function(req, res){
-    await ResellerStock.find()
+    await ScheduleResellerStock.find()
     .then(function(response){
         console.log("to check response: "+ response)
         if(!response){
