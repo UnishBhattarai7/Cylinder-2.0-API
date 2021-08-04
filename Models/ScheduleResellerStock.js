@@ -58,10 +58,10 @@ const ScheduleResellerStock = mongoose.model('ScheduleResellerStock',{
     },
     scheduledDate:{
         type: Date,
-        required = true
+        required : true
     },
     scheduledTime:{
-        type: Number,
+        type: String,
         required:true
     },
     createdAt: {
