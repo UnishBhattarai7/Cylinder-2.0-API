@@ -70,6 +70,13 @@ const ScheduleResellerStock = mongoose.model('ScheduleResellerStock',{
     },
     Entryby : {
         type : String,
+    },
+    isAccepted:{
+        type:Boolean,
+        default:false
+    },
+    acceptedBy:{
+        type:String
     }
 })
 
