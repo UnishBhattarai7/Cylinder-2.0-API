@@ -62,7 +62,7 @@ router.post('/schedule/resellerStock', async function(req, res){
     })
 })
 
-router.get('schedule/resellerStock', async function(req, res){
+router.get('/schedule/resellerStock', async function(req, res){
     await ResellerStock.find()
     .then(function(response){
         console.log("to check response: "+ response)
@@ -72,7 +72,7 @@ router.get('schedule/resellerStock', async function(req, res){
         res.status(200).json({
             success:true,
             message:"Scheduled Stock are ready",
-            data:result
+            data:response
         })
     })
     .catch(function(e)
