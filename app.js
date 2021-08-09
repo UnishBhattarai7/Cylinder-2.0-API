@@ -10,6 +10,7 @@ const resellerstock_route = require('./Routes/ResellerStock_route')
 const companyStock_route = require('./Routes/CompanyStock_route')
 const schedule_reseller_stock_route = require('./Routes/Schedule_Reseller_Stock_Route')
 const schedule_Extra = require("./Routes/Schedule_Extra")
+const Notification_history_route = require("./Routes/Notification_history_route");
 
 const cors = require('cors')
 
@@ -25,6 +26,7 @@ app.use(resellerstock_route);
 app.use(companyStock_route);
 app.use(schedule_reseller_stock_route);
 app.use(schedule_Extra);
+app.use(Notification_history_route);
 
 app.listen(90);
 
