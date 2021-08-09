@@ -80,4 +80,30 @@ router.get('/schedule/resellerStock', async function(req, res){
         res.status(500).json({error:e});
     })
 })
+
+//route to accept scheduled stock
+router.put('/schedule/resellerStock/accepted', async function(req, res){
+
+    const acceptedBy = "Admin" //---later this will come from authentication process
+    
+    console.log(acceptedBy)
+    await ScheduleResellerStock.findOne({_id:req.body.id})
+    .then(async function(response){
+        console.log("to check response: "+ response)
+        if(!response){
+            return res.status(400).json({success:false, message:"Unable to  find scheduled stock"})
+        }
+        await ScheduleResellerStock.findOneAndUpdate(req.body.id, {isAccepted:true, acceptedBy:acceptedBy})
+        .then(async function(result){
+            if(!result){
+                return res.status(400).json({success:false, message:"Unable to  accept scheduled stock"})
+            }
+            res.status(200).json({
+                success:true,
+                message:"Scheduled Stock accepted successfully",
+                data:result
+            })
+        })
+    })
+})
 module.exports = router
