@@ -222,6 +222,7 @@ router1.get('/reseller/total-latest', async function(req, res){
 
 router1.get('/reviewData', async function(req, res){
     const GasSold = 0;
+    var totalAmount;
     // const count = [1,2,3,4];
     await ResellerStock.find({SendOrReceive:"Send"})
     .then(function(resellerStock){
@@ -234,8 +235,9 @@ router1.get('/reviewData', async function(req, res){
         for(i in resellerStock){
             GasSold=resellerStock[i].Regular_Prima + resellerStock[i].Regular_Kamakhya + 
             resellerStock[i].Regular_Suvidha + resellerStock[i].Regular_Others
+            totalAmount = resellerStock[i].Amount
         }
-        res.status(200).json({sucess:true, GasSold:GasSold});
+        res.status(200).json({sucess:true, GasSold:GasSold, TotalAmount:totalAmount});
     }).catch(function(e)
     {
         res.status(500).json({error:e});
