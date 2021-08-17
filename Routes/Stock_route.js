@@ -171,20 +171,6 @@ router.get('/stockDetails', async function(req,res)
     console.log("rHalf_Others Total", rHalf_Others);
     console.log("rEmpty_Others Total", rEmpty_Others);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //For Full Cylinder (Company)
     var cFull_Prima_Send, cFull_Kamakhya_Send, cFull_Suvidha_Send, cFull_Others_Send;
     await CompanyStock.find({Gas_state:"Full" , SendOrReceive:"Send"})
@@ -578,9 +564,6 @@ router.get('/stockDetails', async function(req,res)
         etOthersE: Empty_Others,
     })
 });
-
-
-
 
 //Updating Stock Details
 router.post('/addStock', function(req,res)
@@ -1112,6 +1095,5 @@ router.post('/addStock', function(req,res)
 
         
 });
-
 
 module.exports = router;
