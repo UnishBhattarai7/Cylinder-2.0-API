@@ -219,4 +219,6 @@ router1.get('/reseller/total-latest', async function(req, res){
     })
 })
 
+
+
 module.exports = router1;

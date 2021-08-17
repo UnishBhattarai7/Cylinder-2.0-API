@@ -1096,4 +1096,34 @@ router.post('/addStock', function(req,res)
         
 });
 
+//Pofit Investment Calculation
+
+// router.get('/profit-loss-investment'),async function(req,res){
+ 
+//     res.status(500).json({error:e});
+// }
+
+//Gas-Cylinder Sold
+
+router.get('/gas-cylinder-Sold',async function(req,res)
+{
+    var Gas_Sold, Cylinder_Sold;
+    await CompanyStock.find()
+    .then(function(resultSold){
+        for (i in resultSold)
+        {
+            Gas_Sold = resultSold[i].Regular_Prima + resultSold[i].Regular_Kamakhya + resultSold[i].Regular_Suvidha + resultSold[i].Regular_Others
+            Cylinder_Sold = resultSold[i].Sold_Prima + resultSold[i].Sold_Kamakhya + resultSold[i].Sold_Suvidha + resultSold[i].Sold_Others
+        }
+        console.log("Gas Sold : ", Gas_Sold)
+        console.log("Cylinder_Sold:",Cylinder_Sold)
+        res.status(200).json({Gas_Sold : Gas_Sold, Cylinder_Sold:Cylinder_Sold,success : true});
+    })
+    .catch(function(e){
+        res.status(500).json({error:e});
+    })
+
+})
+
+
 module.exports = router;
