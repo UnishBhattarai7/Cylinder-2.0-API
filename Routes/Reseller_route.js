@@ -1,4 +1,5 @@
 const express = require('express');
+const { count } = require('../Models/Reseller');
 const router1 = express.Router();
 const Reseller = require('../Models/Reseller');
 
@@ -50,14 +51,16 @@ router1.get('/resellerList',async function(req,res)
         console.log(result);
         if(!result)
         {
-            res.status(201).json({
+            return res.status(201).json({
                 success:false, 
-                message:"There are no any reseller registered."})
+                message:"There are no any reseller registered."
+            })
         };
         res.status(200).json({
             success:true, 
             message:"List of Registered Reseller: ", 
-            data:result});
+            data:result,
+        });
     })
     .catch(function(e)
     {
@@ -189,5 +192,33 @@ router1.put('/reseller/isactivetoggle/:id', async function(req,res)
         res.status(500).json({error:e});
     })
 })
+
+//total reseller and latest reseler route
+router1.get('/reseller/total-latest', async function(req, res){
+    await Reseller.find()
+    .then(function(reseller)
+    {
+        console.log(reseller);
+        if(!reseller)
+        {
+            return res.status(201).json({
+                success:false, 
+                message:"There are no any reseller registered."
+            })
+        };
+        res.status(200).json({
+            success:true, 
+            message:"List of Registered Reseller: ", 
+            totalReseller:reseller.length,
+            latest:reseller[reseller.length-1]
+        });
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+})
+
+
 
 module.exports = router1;
