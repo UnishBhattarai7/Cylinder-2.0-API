@@ -1125,5 +1125,36 @@ router.get('/gas-cylinder-Sold',async function(req,res)
 
 })
 
+//For Next Order
+
+router.get('/nextOrder',async function(req,res){
+
+    var nextOrder
+
+    await CompanyStock.find()
+    
+    .then(function(resultNext){
+
+        res.status.json({resultNext})
+        for(i in resultNext)
+        {
+            if(resultNext[i].Regular_Prima < 15)
+            {
+                nextOrder["Next Order"] = Prima
+            }else if (resultNext[i].Regular_Kamakhya < 15)
+            {
+                nextOrder["Next Order"] = Kamakhya
+            }else
+            {
+                nextOrder["Next Order"] = Suvidha
+            }
+        }
+        console.log("Next Order: ",nextOrder)
+        res.status.json({nextOrder:nextOrder,success:true})
+ })
+ .catch(function(e){
+    res.status(500).json({error:e})
+})
+    })
 
 module.exports = router;
