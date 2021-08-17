@@ -222,7 +222,7 @@ router1.get('/reseller/total-latest', async function(req, res){
 
 router1.get('/reviewData', async function(req, res){
     const GasSold = 0;
-    const count = [1,2,3,4];
+    // const count = [1,2,3,4];
     await ResellerStock.find({SendOrReceive:"Send"})
     .then(function(resellerStock){
         if(!resellerStock){
@@ -232,7 +232,8 @@ router1.get('/reviewData', async function(req, res){
             return res.status(200).json({sucess:false, message:"No reseller Stock found"});
         }
         for(i in resellerStock){
-            GasSold=1///need to be edited
+            GasSold=resellerStock[i].Regular_Prima + resellerStock[i].Regular_Kamakhya + 
+            resellerStock[i].Regular_Suvidha + resellerStock[i].Regular_Others
         }
         res.status(200).json({sucess:true, GasSold:GasSold});
     }).catch(function(e)
