@@ -1126,16 +1126,11 @@ router.get('/gas-cylinder-Sold',async function(req,res)
 })
 
 //For Next Order
-
 router.get('/nextOrder',async function(req,res){
-
     var nextOrder
-
-    await CompanyStock.find()
-    
+    await Stock.find()
     .then(function(resultNext){
-
-        res.status.json({resultNext})
+        res.status(500).json({resultNext})
         for(i in resultNext)
         {
             if(resultNext[i].Regular_Prima < 15)
@@ -1151,10 +1146,10 @@ router.get('/nextOrder',async function(req,res){
         }
         console.log("Next Order: ",nextOrder)
         res.status.json({nextOrder:nextOrder,success:true})
- })
- .catch(function(e){
-    res.status(500).json({error:e})
-})
     })
+    .catch(function(e){
+        res.status(500).json({error:e})
+    })
+})
 
 module.exports = router;
