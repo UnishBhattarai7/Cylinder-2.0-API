@@ -222,7 +222,9 @@ router1.get('/reseller/total-latest', async function(req, res){
 
 router1.get('/reviewData', async function(req, res){
     const GasSold = 0;
-    var totalAmount;
+    var CylinderSold;
+    var totalAmountGas;
+    var totalAmountCylinder;
     // const count = [1,2,3,4];
     await ResellerStock.find({SendOrReceive:"Send"})
     .then(function(resellerStock){
@@ -235,9 +237,12 @@ router1.get('/reviewData', async function(req, res){
         for(i in resellerStock){
             GasSold=resellerStock[i].Regular_Prima + resellerStock[i].Regular_Kamakhya + 
             resellerStock[i].Regular_Suvidha + resellerStock[i].Regular_Others
-            totalAmount = resellerStock[i].Amount
+            totalAmountGas = GasSold*1350 //it is gas price * total gas sold --need to change
+            CylinderSold = resellerStock[i].Sold_Prima + resellerStock[i].Sold_Kamakhya +
+            resellerStock[i].Sold_Suvidha + resellerStock[i].Sold_Others
+            totalAmountCylinder = CylinderSold*1000 //it is cylinder sold * rate of cylinder --need to change
         }
-        res.status(200).json({sucess:true, GasSold:GasSold, TotalAmount:totalAmount});
+        res.status(200).json({sucess:true, GasSold:GasSold, GasAmount:totalAmountGas, CylinderAmount:totalAmountCylinder});
     }).catch(function(e)
     {
         res.status(500).json({error:e});
