@@ -2,6 +2,7 @@ const express = require('express');
 const { count } = require('../Models/Reseller');
 const router1 = express.Router();
 const Reseller = require('../Models/Reseller');
+const ResellerStock = require('../Models/ResellerStock');
 
 
 //Adding New Reseller
@@ -214,6 +215,27 @@ router1.get('/reseller/total-latest', async function(req, res){
         });
     })
     .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+});
+
+router1.get('/reviewData', async function(req, res){
+    const GasSold = 0;
+    const count = [1,2,3,4];
+    await ResellerStock.find({SendOrReceive:"Send"})
+    .then(function(resellerStock){
+        if(!resellerStock){
+            return res.status(500).json({sucess:false, message:"Error! No reseller Stock found"});
+        }
+        if(resellerStock.length<=0){
+            return res.status(200).json({sucess:false, message:"No reseller Stock found"});
+        }
+        for(i in resellerStock){
+            GasSold=1///need to be edited
+        }
+        res.status(200).json({sucess:true, GasSold:GasSold});
+    }).catch(function(e)
     {
         res.status(500).json({error:e});
     })
