@@ -1143,11 +1143,19 @@ router.get('/nextOrder',async function(req,res){
         if(!resReceivedStock){
            return res.status(500).json({success:false, message:"Could not load data"});
         }
+        // console.log(resReceivedStock)
         for(i in resReceivedStock){
+        
             res_rec_prima = resReceivedStock[i].Regular_Prima + resReceivedStock[i].Leak_Prima + resReceivedStock[i].Sold_Prima;
             res_rec_kamakhya = resReceivedStock[i].Regular_Kamakhya + resReceivedStock[i].Leak_Kamakhya + resReceivedStock[i].Sold_Kamakhya;
             res_rec_suvidha = resReceivedStock[i].Regular_Suvidha + resReceivedStock[i].Leak_Suvidha + resReceivedStock[i].Sold_Suvidha;
         }
+        console.log("Received Prima Reseller Stock" + res_rec_prima)
+
+        console.log("Received Company Stock" + res_rec_kamakhya)
+
+        console.log("Received Company Stock" + res_rec_suvidha)
+
     }).catch(function(e){
         res.status(500).json({error:e});
     })
@@ -1162,6 +1170,13 @@ router.get('/nextOrder',async function(req,res){
             com_rec_kamakhya = comReceivedStock[i].Regular_Kamakhya + comReceivedStock[i].Leak_Kamakhya + comReceivedStock[i].Sold_Kamakhya;
             com_rec_suvidha = comReceivedStock[i].Regular_Suvidha + comReceivedStock[i].Leak_Suvidha + comReceivedStock[i].Sold_Suvidha;
         }
+        console.log(comReceivedStock)
+
+        console.log("Received  Prima Company Stock" + com_rec_prima)
+
+        console.log("Received Company Stock" + com_rec_kamakhya)
+
+        console.log("Received Company Stock" + com_rec_suvidha)
     }).catch(function(e){
         res.status(500).json({error:e});
     })
@@ -1177,6 +1192,12 @@ router.get('/nextOrder',async function(req,res){
             res_send_kamakhya = resSendStock[i].Regular_Kamakhya + resSendStock[i].Leak_Kamakhya + resSendStock[i].Sold_Kamakhya;
             res_send_suvidha = resSendStock[i].Regular_Suvidha + resSendStock[i].Leak_Suvidha + resSendStock[i].Sold_Suvidha;
         }
+
+        console.log("Send Prima Reseller Stock" + res_send_prima)
+
+        console.log("Received Company Stock" + res_send_kamakhya)
+
+        console.log("Received Company Stock" + res_send_suvidha)
     }).catch(function(e){
         res.status(500).json({error:e});
     })
@@ -1192,6 +1213,11 @@ router.get('/nextOrder',async function(req,res){
             com_send_kamakhya = comSendStock[i].Regular_Kamakhya + comSendStock[i].Leak_Kamakhya + comSendStock[i].Sold_Kamakhya;
             com_send_suvidha = comSendStock[i].Regular_Suvidha + comSendStock[i].Leak_Suvidha + comSendStock[i].Sold_Suvidha;
         }
+        console.log("Send Prima Company Stock" + com_send_prima)
+
+        console.log("Received Company Stock" + com_send_kamakhya)
+
+        console.log("Received Company Stock" + com_send_suvidha)
     }).catch(function(e){
         res.status(500).json({error:e});
     })
@@ -1208,7 +1234,7 @@ router.get('/nextOrder',async function(req,res){
         return res.status(200).json({success:true, nextOrder:"suvidha", left:suvidha_total})
     }
     else{
-        return res.status(200).json({success:false, message:"Stock is full"})
+        return res.status(200).json({success:false, message:"Stock is full" + prima_total, kamakhya_total, suvidha_total})
     }
 })
 
