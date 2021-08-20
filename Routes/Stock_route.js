@@ -1147,7 +1147,6 @@ router.get('/nextOrder',async function(req,res){
     var prima_total=0
     var kamakhya_total=0 
     var suvidha_total=0
-    var count = 0
 
     //received 
     //reseller stock
