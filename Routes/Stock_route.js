@@ -1207,6 +1207,9 @@ router.get('/nextOrder',async function(req,res){
     else if(suvidha_total<10){
         return res.status(200).json({success:true, nextOrder:"suvidha", left:suvidha_total})
     }
+    else{
+        return res.status(200).json({success:false, message:"Stock is full"})
+    }
 })
 
 router.get('/bestSelling',async function(req,res){
