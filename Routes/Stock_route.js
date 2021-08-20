@@ -697,7 +697,7 @@ router.post('/addStock', function(req,res)
     }
 
     console.log(FullReceive);
-    console.log(Object.Keys(FullReceive));
+    // console.log(Object.Keys(FullReceive));
     console.log(FullSend);
     console.log(HalfReceive);
     console.log(HalfSend);
@@ -1145,7 +1145,25 @@ router.get('/nextOrder',async function(req,res){
             }
         }
         console.log("Next Order: ",nextOrder)
-        res.status.json({nextOrder:nextOrder,success:true})
+        res.status(200).json({nextOrder:nextOrder,success:true})
+    })
+    .catch(function(e){
+        res.status(500).json({error:e})
+    })
+})
+
+router.get('/bestSelling',async function(req,res){
+    var Prima_BestSelling, Kamakhya_BestSelling,Suvidha_BestSelling;
+    await ResellerStock.find({SendOrReceive : "Send"})
+    .then(function(resultBestSelling){
+        for(i in resultBestSelling)
+        {
+            Prima_BestSelling = resultBestSelling[i].Regular_Prima 
+            Kamakhya_BestSelling = resultBestSelling[i].Regular_Kamakhya 
+            Suvidha_BestSelling = resultBestSelling[i].Regular_Suvidha 
+        }
+        console.log("Prima" + Prima_BestSelling)
+        res.status(200).json({Prima_BestSelling:Prima_BestSelling,Kamakhya_BestSelling:Kamakhya_BestSelling,Suvidha_BestSelling:Suvidha_BestSelling, success:true,messgae:"Value Received"})
     })
     .catch(function(e){
         res.status(500).json({error:e})
