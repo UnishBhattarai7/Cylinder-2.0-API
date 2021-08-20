@@ -3,6 +3,7 @@ const router = express.Router();
 const Stock = require('../Models/Stock');
 const ResellerStock = require('../Models/ResellerStock');
 const CompanyStock = require('../Models/CompanyStock');
+const { find } = require('../Models/Stock');
 
 //Showing Stock Details
 router.get('/stockDetails', async function(req,res)
@@ -1110,6 +1111,9 @@ router.get('/gas-cylinder-Sold',async function(req,res)
     var Gas_Sold, Cylinder_Sold;
     await ResellerStock.find()
     .then(function(resultSold){
+        if(!resultSold){
+           return res.status(200).json({success : false, message:"unable to Load data"});
+        }
         for (i in resultSold)
         {
             Gas_Sold = resultSold[i].Regular_Prima + resultSold[i].Regular_Kamakhya + resultSold[i].Regular_Suvidha + resultSold[i].Regular_Others
@@ -1117,7 +1121,7 @@ router.get('/gas-cylinder-Sold',async function(req,res)
         }
         console.log("Gas Sold : ", Gas_Sold)
         console.log("Cylinder_Sold:",Cylinder_Sold)
-        res.status(200).json({Gas_Sold : Gas_Sold, Cylinder_Sold:Cylinder_Sold,success : true});
+        res.status(200).json({Gas_Sold : Gas_Sold, Cylinder_Sold:Cylinder_Sold,success : true, message:"data"});
     })
     .catch(function(e){
         res.status(500).json({error:e});
@@ -1127,41 +1131,127 @@ router.get('/gas-cylinder-Sold',async function(req,res)
 
 //For Next Order
 router.get('/nextOrder',async function(req,res){
-    var nextOrder
-    await Stock.find()
-    .then(function(resultNext){
-        for(i in resultNext)
-        {
-            if(resultNext[i].Regular_Prima < 15)
-            {
-                nextOrder["Next Order"] = Prima
-            }else if (resultNext[i].Regular_Kamakhya < 15)
-            {
-                nextOrder["Next Order"] = Kamakhya
-            }else
-            {
-                nextOrder["Next Order"] = Suvidha
-            }
+    // res.status(500).json({message:"hitted"});
+    var res_rec_prima=0
+    var res_rec_kamakhya=0 
+    var res_rec_suvidha=0
+    var res_send_prima=0
+    var res_send_kamakhya=0
+    var res_send_suvidha=0
+    var com_rec_prima=0
+    var com_rec_kamakhya=0
+    var com_rec_suvidha=0
+    var com_send_prima=0
+    var com_send_kamakhya=0
+    var com_send_suvidha=0
+    var prima_total=0
+    var kamakhya_total=0 
+    var suvidha_total=0
+
+    //received 
+    //reseller stock
+    await ResellerStock.find({SendOrReceive:"Receive"})
+    .then(async function(resReceivedStock){
+        if(!resReceivedStock){
+           return res.status(500).json({success:false, message:"Could not load data"});
         }
-        console.log("Next Order: ",nextOrder)
-        res.status(200).json({nextOrder:nextOrder,success:true})
+        for(i in resReceivedStock){
+            res_rec_prima += resReceivedStock[i].Regular_Prima + resReceivedStock[i].Leak_Prima + resReceivedStock[i].Sold_Prima; //working
+            res_rec_kamakhya += resReceivedStock[i].Regular_Kamakhya + resReceivedStock[i].Leak_Kamakhya + resReceivedStock[i].Sold_Kamakhya; //working
+            res_rec_suvidha += resReceivedStock[i].Regular_Suvidha + resReceivedStock[i].Leak_Suvidha + resReceivedStock[i].Sold_Suvidha; //working
+        }
+        // console.log("res_rec_prima:  "+ res_rec_prima);
+        // console.log("res_rec_kamkhya:  "+ res_rec_kamakhya);
+        // console.log("res_rec_suvidha:  "+ res_rec_suvidha);
+    }).catch(function(e){
+        res.status(500).json({error:e});
     })
-    .catch(function(e){
-        res.status(500).json({error:e})
+    //company stock received
+    await CompanyStock.find({SendOrReceive:"Receive"})
+    .then(function(comReceivedStock){
+        if(!comReceivedStock){
+            return res.status(500).json({success:false, message:"Could not load data"});
+        }
+        for(i in comReceivedStock){
+            com_rec_prima += comReceivedStock[i].Regular_Prima + comReceivedStock[i].Leak_Prima + comReceivedStock[i].Sold_Prima;
+            com_rec_kamakhya += comReceivedStock[i].Regular_Kamakhya + comReceivedStock[i].Leak_Kamakhya + comReceivedStock[i].Sold_Kamakhya;
+            com_rec_suvidha += comReceivedStock[i].Regular_Suvidha + comReceivedStock[i].Leak_Suvidha + comReceivedStock[i].Sold_Suvidha;
+        }
+        // console.log("com_rec_prima:  "+ com_rec_prima);
+        // console.log("com_rec_kamakhya:  "+ com_rec_kamakhya);
+        // console.log("com_rec_suvidha:  "+ com_rec_suvidha);
+    }).catch(function(e){
+        res.status(500).json({error:e});
     })
+
+    // reseller stock send
+    await ResellerStock.find({SendOrReceive:"Send"})
+    .then(async function(resSendStock){
+        if(!resSendStock){
+           return res.status(500).json({success:false, message:"Could not load data"});
+        }
+        for(i in resSendStock){
+            res_send_prima += resSendStock[i].Regular_Prima + resSendStock[i].Leak_Prima + resSendStock[i].Sold_Prima;
+            res_send_kamakhya += resSendStock[i].Regular_Kamakhya + resSendStock[i].Leak_Kamakhya + resSendStock[i].Sold_Kamakhya;
+            res_send_suvidha += resSendStock[i].Regular_Suvidha + resSendStock[i].Leak_Suvidha + resSendStock[i].Sold_Suvidha;
+        }
+        // console.log("res_send_prima:  "+ res_send_prima);
+        // console.log("res_send_kamakhya:  "+ res_send_kamakhya);
+        // console.log("res_send_suvidha:  "+ res_send_suvidha);
+    }).catch(function(e){
+        res.status(500).json({error:e});
+    })
+
+    // company stock send
+    await CompanyStock.find({SendOrReceive:"Send"})
+    .then(function(comSendStock){
+        if(!comSendStock){
+            return res.status(500).json({success:false, message:"Could not load data"});
+        }
+        for(i in comSendStock){
+            com_send_prima += comSendStock[i].Regular_Prima + comSendStock[i].Leak_Prima + comSendStock[i].Sold_Prima;
+            com_send_kamakhya += comSendStock[i].Regular_Kamakhya + comSendStock[i].Leak_Kamakhya + comSendStock[i].Sold_Kamakhya;
+            com_send_suvidha += comSendStock[i].Regular_Suvidha + comSendStock[i].Leak_Suvidha + comSendStock[i].Sold_Suvidha;
+        }
+        // console.log("com_send_prima:  "+ com_send_prima);
+        // console.log("com_send_kamakhya:  "+ com_send_kamakhya);
+        // console.log("com_send_suvidha:  "+ com_send_suvidha);
+    }).catch(function(e){
+        res.status(500).json({error:e});
+    })
+    prima_total = (res_rec_prima-res_send_prima)+(com_rec_prima-com_send_prima)
+    kamakhya_total = (res_rec_kamakhya-res_send_kamakhya)+(com_rec_kamakhya-com_send_kamakhya)
+    suvidha_total = (res_rec_suvidha-res_send_kamakhya)+(com_rec_suvidha-com_send_suvidha)
+    // console.log("prima_total:  "+ prima_total);
+    // console.log("kamakhya_total:  "+ kamakhya_total);
+    // console.log("suvidha_total:  "+ suvidha_total);
+    if(prima_total<10){
+       return res.status(200).json({success:true, nextOrder:"prima", left:prima_total})
+    }
+    else if(kamakhya_total<10){
+        return res.status(200).json({success:true, nextOrder:"kamakhya", left:kamakhya_total})
+    }
+    else if(suvidha_total<10){
+        return res.status(200).json({success:true, nextOrder:"suvidha", left:suvidha_total})
+    }
+    else{
+        return res.status(200).json({success:false, message:"Stock is full"})
+    }
 })
 
 router.get('/bestSelling',async function(req,res){
-    var Prima_BestSelling, Kamakhya_BestSelling,Suvidha_BestSelling;
+    var Prima_BestSelling=0
+    var Kamakhya_BestSelling = 0
+    var Suvidha_BestSelling=0
     await ResellerStock.find({SendOrReceive : "Send"})
     .then(function(resultBestSelling){
         for(i in resultBestSelling)
         {
-            Prima_BestSelling = resultBestSelling[i].Regular_Prima 
-            Kamakhya_BestSelling = resultBestSelling[i].Regular_Kamakhya 
-            Suvidha_BestSelling = resultBestSelling[i].Regular_Suvidha 
+            Prima_BestSelling += resultBestSelling[i].Regular_Prima 
+            Kamakhya_BestSelling += resultBestSelling[i].Regular_Kamakhya 
+            Suvidha_BestSelling += resultBestSelling[i].Regular_Suvidha 
         }
-        console.log("Prima" + Prima_BestSelling)
+        console.log("Prima: " + Prima_BestSelling)
         res.status(200).json({Prima_BestSelling:Prima_BestSelling,Kamakhya_BestSelling:Kamakhya_BestSelling,Suvidha_BestSelling:Suvidha_BestSelling, success:true,messgae:"Value Received"})
     })
     .catch(function(e){
