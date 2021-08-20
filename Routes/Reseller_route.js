@@ -2,6 +2,7 @@ const express = require('express');
 const { count } = require('../Models/Reseller');
 const router1 = express.Router();
 const Reseller = require('../Models/Reseller');
+const ResellerStock = require('../Models/ResellerStock');
 
 
 //Adding New Reseller
@@ -217,7 +218,7 @@ router1.get('/reseller/total-latest', async function(req, res){
     {
         res.status(500).json({error:e});
     })
-})
+});
 
 
 
