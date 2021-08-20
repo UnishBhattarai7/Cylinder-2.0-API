@@ -1198,8 +1198,8 @@ router.get('/nextOrder',async function(req,res){
     prima_total = (res_rec_prima-res_send_prima)+(com_rec_prima-com_send_prima)
     kamakhya_total = (res_rec_kamakhya-res_send_kamakhya)+(com_rec_kamakhya-com_send_kamakhya)
     suvidha_total = (res_rec_suvidha-res_send_kamakhya)+(com_rec_suvidha-com_send_suvidha)
-    
-    res.status(200).json({success:true, nextOrder:prima_total+kamakhya_total_suvudha_total})
+
+    res.status(200).json({success:true, nextOrder:prima_total+kamakhya_total+suvidha_total})
 })
 
 router.get('/bestSelling',async function(req,res){
