@@ -1108,7 +1108,7 @@ router.post('/addStock', function(req,res)
 router.get('/gas-cylinder-Sold',async function(req,res)
 {
     var Gas_Sold, Cylinder_Sold;
-    await CompanyStock.find()
+    await ResellerStock.find()
     .then(function(resultSold){
         for (i in resultSold)
         {
