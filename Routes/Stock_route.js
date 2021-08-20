@@ -697,7 +697,7 @@ router.post('/addStock', function(req,res)
     }
 
     console.log(FullReceive);
-    console.log(Object.Keys(FullReceive));
+    // console.log(Object.Keys(FullReceive));
     console.log(FullSend);
     console.log(HalfReceive);
     console.log(HalfSend);
@@ -1130,7 +1130,6 @@ router.get('/nextOrder',async function(req,res){
     var nextOrder
     await Stock.find()
     .then(function(resultNext){
-        res.status(500).json({resultNext})
         for(i in resultNext)
         {
             if(resultNext[i].Regular_Prima < 15)
