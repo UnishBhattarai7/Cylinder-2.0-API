@@ -1108,7 +1108,7 @@ router.post('/addStock', function(req,res)
 router.get('/gas-cylinder-Sold',async function(req,res)
 {
     var Gas_Sold, Cylinder_Sold;
-    await CompanyStock.find()
+    await ResellerStock.find()
     .then(function(resultSold){
         for (i in resultSold)
         {
@@ -1130,7 +1130,6 @@ router.get('/nextOrder',async function(req,res){
     var nextOrder
     await Stock.find()
     .then(function(resultNext){
-        res.status(500).json({resultNext})
         for(i in resultNext)
         {
             if(resultNext[i].Regular_Prima < 15)
