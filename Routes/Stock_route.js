@@ -1108,7 +1108,10 @@ router.post('/addStock', function(req,res)
 
 router.get('/gas-cylinder-Sold',async function(req,res)
 {
-    var Gas_Sold, Cylinder_Sold;
+    var Gas_Sold=0
+    var Cylinder_Sold=0
+    var gasAmount=0
+    var cylinderAmount=0
     await ResellerStock.find()
     .then(function(resultSold){
         if(!resultSold){
@@ -1116,12 +1119,14 @@ router.get('/gas-cylinder-Sold',async function(req,res)
         }
         for (i in resultSold)
         {
-            Gas_Sold = resultSold[i].Regular_Prima + resultSold[i].Regular_Kamakhya + resultSold[i].Regular_Suvidha + resultSold[i].Regular_Others
-            Cylinder_Sold = resultSold[i].Sold_Prima + resultSold[i].Sold_Kamakhya + resultSold[i].Sold_Suvidha + resultSold[i].Sold_Others
+            Gas_Sold += resultSold[i].Regular_Prima + resultSold[i].Regular_Kamakhya + resultSold[i].Regular_Suvidha + resultSold[i].Regular_Others
+            Cylinder_Sold += resultSold[i].Sold_Prima + resultSold[i].Sold_Kamakhya + resultSold[i].Sold_Suvidha + resultSold[i].Sold_Others
         }
+        gasAmount = Gas_Sold*1350
+        cylinderAmount = Cylinder_Sold*700
         console.log("Gas Sold : ", Gas_Sold)
         console.log("Cylinder_Sold:",Cylinder_Sold)
-        res.status(200).json({Gas_Sold : Gas_Sold, Cylinder_Sold:Cylinder_Sold,success : true, message:"data"});
+        res.status(200).json({Gas_Sold : Gas_Sold, Cylinder_Sold:Cylinder_Sold,success:true, message:"data", gasAmount:gasAmount,cylinderAmount:cylinderAmount});
     })
     .catch(function(e){
         res.status(500).json({error:e});
@@ -1335,6 +1340,5 @@ router.get('/profit-loss-investment', async function(req, res){
     }else{
         return res.status(200).json({success:true, profitLossAmount:profit_loss, profitLoss:"Neutral", investment:total_receive})
     }
-})
-
+});
 module.exports = router;
