@@ -1329,11 +1329,11 @@ router.get('/profit-loss-investment', async function(req, res){
     profit_loss = total_receive - total_send
 
     if(profit_loss>0){
-        return res.status(200).json({success:true, profitLossAmount:profit_loss, profitLoss:"Profit"})
+        return res.status(200).json({success:true, profitLossAmount:profit_loss, profitLoss:"Profit",investment:total_receive})
     }else if(profit_loss<0){
-        return res.status(200).json({success:true, profitLossAmount:profit_loss, profitLoss:"Loss"})
+        return res.status(200).json({success:true, profitLossAmount:profit_loss, profitLoss:"Loss", investment:total_receive})
     }else{
-        return res.status(200).json({success:true, profitLossAmount:profit_loss, profitLoss:"Neutral"})
+        return res.status(200).json({success:true, profitLossAmount:profit_loss, profitLoss:"Neutral", investment:total_receive})
     }
 })
 
