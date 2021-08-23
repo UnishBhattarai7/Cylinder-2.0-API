@@ -13,7 +13,7 @@ router1.post('/CompanyStock',async function(req, res)
         const {CompanyReceiptNo, CompanyID, Gas_state, Regular_Prima, Regular_Kamakhya, Regular_Suvidha, Regular_Others,
             Leak_Prima, Leak_Kamakhya, Leak_Suvidha, Leak_Others,
             Sold_Prima, Sold_Kamakhya, Sold_Suvidha, Sold_Others,
-            SendOrReceive, Amount, Remarks, Entryby} = req.body
+            SendOrReceive, Amount, Remarks} = req.body
     
         const data = new CompanyStock({
             CompanyReceiptNo:CompanyReceiptNo,
@@ -33,10 +33,10 @@ router1.post('/CompanyStock',async function(req, res)
             Sold_Others:Sold_Others,
             SendOrReceive:SendOrReceive,
             Amount:Amount,
-            Remarks:Remarks,
-            Entryby:Entryby
+            Remarks:Remarks
         })
-        
+
+
         const stockInfo = await data.save()
         console.log(stockInfo);
 
@@ -44,7 +44,7 @@ router1.post('/CompanyStock',async function(req, res)
         {
             res.status(201).json({
                 success:false,
-                message:"Please fill all required information."
+                message:"Could not save company Stock"
             })
         }
         res.status(200).json({

@@ -70,7 +70,6 @@ const CompanyStock = mongoose.model('CompanyStock',{
     },
     Entryby : {
         type : String,
-        required : true
     }
 })
 

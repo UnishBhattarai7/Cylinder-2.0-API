@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
-const ResellerStock = mongoose.model('ResellerStock',{
-    ResellerReceiptNo : {
-        type : String,
-        required : true
-    },
+const ScheduleResellerStock = mongoose.model('ScheduleResellerStock',{
     ResellerID : {
         type : String,
         required : [true, "Enter ID"]
@@ -56,21 +52,32 @@ const ResellerStock = mongoose.model('ResellerStock',{
         enum : ["Send", "Receive"],
         required : [true, "Select status"]
     },
-    Amount : {
-        type : String,
-        required : [true, "Enter Amount"]
-    },
     Remarks : {
         type : String,
         required : [true, "Enter your opinion"]
     },
-    StockAddedAt: {
+    scheduledDate:{
+        type: Date,
+        required : true
+    },
+    scheduledTime:{
+        type: String,
+        required:true
+    },
+    createdAt: {
         type: Date,
         default: Date.now,
     },
     Entryby : {
         type : String,
+    },
+    isAccepted:{
+        type:Boolean,
+        default:false
+    },
+    acceptedBy:{
+        type:String
     }
 })
 
-module.exports = ResellerStock;
+module.exports = ScheduleResellerStock;
