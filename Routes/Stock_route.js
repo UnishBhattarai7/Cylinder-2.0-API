@@ -714,7 +714,7 @@ router.post('/addStock', function(req,res)
     }
 
     console.log(FullReceive);
-    console.log(Object.Keys(FullReceive));
+    console.log(FullReceive);
     console.log(FullSend);
     console.log(HalfReceive);
     console.log(HalfSend);
