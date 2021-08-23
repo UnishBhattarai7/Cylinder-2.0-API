@@ -16,7 +16,7 @@ router1.post('/resellerStock',async function(req, res)
             Sold_Prima, Sold_Kamakhya, Sold_Suvidha, Sold_Others,
             SendOrReceive, Amount, Remarks} = req.body
         const data = new ResellerStock({
-            ResellerReceiptNo:"1234567",
+            ResellerReceiptNo:ResellerReceiptNo,
             ResellerID:ResellerID,
             Gas_state:Gas_state,
             Regular_Prima:Regular_Prima,

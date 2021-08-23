@@ -16,7 +16,7 @@ router1.post('/CompanyStock',async function(req, res)
             SendOrReceive, Amount, Remarks} = req.body
     
         const data = new CompanyStock({
-            CompanyReceiptNo:"10000000",
+            CompanyReceiptNo:CompanyReceiptNo,
             CompanyID:CompanyID,
             Gas_state:Gas_state,
             Regular_Prima:Regular_Prima,
