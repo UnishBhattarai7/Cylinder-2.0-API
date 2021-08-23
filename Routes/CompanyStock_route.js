@@ -35,7 +35,8 @@ router1.post('/CompanyStock',async function(req, res)
             Amount:Amount,
             Remarks:Remarks
         })
-        
+
+
         const stockInfo = await data.save()
         console.log(stockInfo);
 
