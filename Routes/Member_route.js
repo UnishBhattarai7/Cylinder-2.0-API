@@ -12,6 +12,9 @@ router2.post('/admin/profile/addMember',
  [
     check('Firstname', 'Enter First Name').not().isEmpty(),
     check('Lastname', 'Enter Last Name').not().isEmpty(),
+
+
+    
     check('Status', 'Who are  you?').not().isEmpty(),
     check('Phonenumber', 'Enter your phonenumber').not().isEmpty(),
     check('Address', 'Enter your address').not().isEmpty(),
@@ -26,9 +29,6 @@ async function(req,res)
     {
         const firstname = req.body.Firstname
         const lastname = req.body.Lastname
-
-
-
         const status = req.body.Status
         const phonenumber = req.body.Phonenumber
         const address = req.body.Address

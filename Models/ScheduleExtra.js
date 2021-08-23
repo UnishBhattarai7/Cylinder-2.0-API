@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const ScheduleExtra = mongoose.model('ScheduleExtra',{
     scheduledDate:{
-        type: Date,
+        type: String,
         required : true
     },
     scheduledTime:{

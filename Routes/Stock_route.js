@@ -698,6 +698,7 @@ router.post('/addStock', function(req,res)
     }
 
     console.log(FullReceive);
+    console.log(FullReceive);
     // console.log(Object.Keys(FullReceive));
     console.log(FullSend);
     console.log(HalfReceive);
@@ -1231,13 +1232,13 @@ router.get('/nextOrder',async function(req,res){
     // console.log("kamakhya_total:  "+ kamakhya_total);
     // console.log("suvidha_total:  "+ suvidha_total);
     if(prima_total<10){
-       return res.status(200).json({success:true, nextOrder:"prima", left:prima_total})
+       return res.status(200).json({success:true, nextOrder:"PRIMA", left:prima_total})
     }
     else if(kamakhya_total<10){
-        return res.status(200).json({success:true, nextOrder:"kamakhya", left:kamakhya_total})
+        return res.status(200).json({success:true, nextOrder:"KAMAKHYA", left:kamakhya_total})
     }
     else if(suvidha_total<10){
-        return res.status(200).json({success:true, nextOrder:"suvidha", left:suvidha_total})
+        return res.status(200).json({success:true, nextOrder:"SUVIDA", left:suvidha_total})
     }
     else{
         return res.status(200).json({success:false, message:"Stock is full"})
