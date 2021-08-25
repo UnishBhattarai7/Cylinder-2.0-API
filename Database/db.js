@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://sabin:sabin@cluster0.jjzgy.mongodb.net/cylinder?retryWrites=true&w=majority',{
+mongoose.connect(process.env.MONGODB_URL || 'mongodb://127.0.0.1:27017/cylinder',{
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology : true
