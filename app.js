@@ -31,7 +31,7 @@ app.use(schedule_Extra);
 app.use(Notification_history_route);
 
 app.get("/", (req,res) => {
-    return res.status(200).json({message: "Hello Guys"})
+    return res.status(200).json({message: process.env.PORT})
 })
 
 app.listen(PORT,()=> 
