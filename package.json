@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "Final Assignment",
   "main": "app.js",
-  "engines": {
-    "node": "12.11.1",
-    "npm": "6.14.8"
-  },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
@@ -18,13 +14,11 @@
     "express-validator": "^6.12.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.2",
-    "nodemon": "^2.0.12",
     "path": "^0.12.7",
     "promise": "^8.1.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
   "author": "Anish Nepal",
