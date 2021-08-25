@@ -65,7 +65,7 @@ router1.get('/resellerList',async function(req,res)
     })
     .catch(function(e)
     {
-        res.status(500).json({error:e});
+        res.status(500).json({"Error ayo"});
     })
 });
 
