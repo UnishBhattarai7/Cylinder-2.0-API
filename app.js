@@ -30,10 +30,6 @@ app.use(schedule_reseller_stock_route);
 app.use(schedule_Extra);
 app.use(Notification_history_route);
 
-app.get("cylinder", function(req,res){
-    res.status(200).json({message: "Hello Guys"})
-})
-
 app.listen(PORT,()=> 
     console.log("Listening to the post http://localhost:" + PORT)
 );
