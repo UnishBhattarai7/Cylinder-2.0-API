@@ -11,7 +11,7 @@ const companyStock_route = require('./Routes/CompanyStock_route')
 const schedule_reseller_stock_route = require('./Routes/Schedule_Reseller_Stock_Route')
 const schedule_Extra = require("./Routes/Schedule_Extra")
 const Notification_history_route = require("./Routes/Notification_history_route");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 const cors = require('cors')
 const { prototype } = require('promise');
@@ -34,8 +34,8 @@ app.get("cylinder", function(req,res){
     res.status(200).json({message: "Hello Guys"})
 })
 
-app.listen(PORT, function(){
-    console.log("Listening to the post" + PORT);
-});
+app.listen(PORT,()=> 
+    console.log("Listening to the post http://localhost:" + PORT)
+);
 
 //Cylinder2.0
