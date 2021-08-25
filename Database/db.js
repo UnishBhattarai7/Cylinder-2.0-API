@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://sabin:sabin@cluster0.jjzgy.mongodb.net/cylinder',{
+mongoose.connect(process.env.MONGODB_URL,
+    {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology : true
-})
+},
+() => {
+    console.log("DB Connected");
+}
+)
