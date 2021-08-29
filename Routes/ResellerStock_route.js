@@ -95,12 +95,18 @@ router1.get('/resellerStockList/:id', async function(req,res)
     await ResellerStock.findOne({ResellerID:id})
     .then(function(result)
     {
-        console.log(result);
-        res.status(200).json({
-            success:true,
-            message:"Details of stock of Reseller having ID " + result.ResellerID,
-            data:result
-        })
+        if(!result){
+            console.log("Could not find data")
+            return res.status(500).json({success:false, message:"Couldn't find data"})
+        }
+        else{
+            res.status(200).json({
+                success:true,
+                message:"Details of stock of Reseller having ID " + result.ResellerID,
+                data:result
+            })
+        }
+        
     })
     .catch(function(e)
     {
