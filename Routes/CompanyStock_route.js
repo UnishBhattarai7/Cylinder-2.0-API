@@ -108,6 +108,40 @@ router1.get('/companyStockList/:id', async function(req,res)
     })
 })
 
+//Show profile of related company
+router1.get('/company/:id', async function(req,res)
+{
+    const id = req.params.id
+    console.log("company id : "+id)
+    
+    await CompanyStock.find({CompanyID:id})
+    .then(function(result)
+    {
+        console.log(result);
+
+        // var sendTotalAmount = 0
+        // for (i in result){
+        //     if (result[i].SendOrReceive == "Send"){
+        //         sendTotalAmount +=  result[i].Amount
+        //         console.log(result[i].Amount)
+        //      }
+        // }
+        
+        console.log("sendTotalAmount")
+        // console.log(sendTotalAmount)
+        res.status(200).json({
+            success:false,
+            message:"Details of stock of Company having ID " + result.CompanyID,
+            data:result
+        })
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+})
+
+
 //Updating Stock of Related Company
 router1.put('/companyStockList/update/:id', async function(req,res)
 {

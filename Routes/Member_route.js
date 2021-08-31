@@ -7,6 +7,12 @@ const {check, validationResult} = require('express-validator');
 const date = require('date-and-time');
 const jwt = require('jsonwebtoken');
 
+const CompanyStock = require('../Models/CompanyStock');
+const Company = require('../Models/Company');
+
+const ResellerStock = require('../Models/ResellerStock');
+const Reseller = require('../Models/Reseller');
+
 router2.post('/admin/profile/addMember',
 //  authUser.verifyMember, authUser.verifyAdmin, 
  [
@@ -287,6 +293,41 @@ router2.put('/member/isactivetoggle/:id', async function(req,res)
                 });
             })
         }
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+})
+
+//Show profile of related member
+router2.get('/member/:id', async function(req,res)
+{
+    const id = req.params.id
+    console.log("member id : "+id)
+    
+    // Entry by : find from company and member
+
+    await CompanyStock.find({CompanyID:id})
+    .then(function(result)
+    {
+        console.log(result);
+
+        // var sendTotalAmount = 0
+        // for (i in result){
+        //     if (result[i].SendOrReceive == "Send"){
+        //         sendTotalAmount +=  result[i].Amount
+        //         console.log(result[i].Amount)
+        //      }
+        // }
+        
+        console.log("sendTotalAmount")
+        // console.log(sendTotalAmount)
+        res.status(200).json({
+            success:false,
+            message:"Details of stock of Company having ID " + result.CompanyID,
+            data:result
+        })
     })
     .catch(function(e)
     {
