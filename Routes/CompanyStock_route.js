@@ -113,26 +113,62 @@ router1.get('/company/:id', async function(req,res)
 {
     const id = req.params.id
     console.log("company id : "+id)
-    
+
+        
     await CompanyStock.find({CompanyID:id})
     .then(function(result)
     {
         console.log(result);
+       
 
-        // var sendTotalAmount = 0
-        // for (i in result){
-        //     if (result[i].SendOrReceive == "Send"){
-        //         sendTotalAmount +=  result[i].Amount
-        //         console.log(result[i].Amount)
-        //      }
-        // }
+        var sendTotalAmount = 0
+        var receiveTotalAmount = 0
+        var Gas_Sold = 0
+        var Cylinder_Sold = 0
+        var ReceiveLeak = 0
+        var SendLeak = 0
+        var CylinderSENDLended = 0
+        var CylinderRECEIVELended = 0
+        var LatestPaid = 0
+        var LatestTotCylinder = 0
+        for (i in result){
+            if (result[i].SendOrReceive == "Send"){
+                sendTotalAmount +=  +result[i].Amount
+                Gas_Sold += +result[i].Regular_Prima +result[i].Regular_Kamakhya +result[i].Regular_Suvidha +result[i].Regular_Others
+                Cylinder_Sold += +result[i].Sold_Prima +result[i].Sold_Kamakhya +result[i].Sold_Suvidha +result[i].Sold_Others
+                SendLeak += +result[i].Leak_Prima +result[i].Leak_Kamakhya +result[i].Leak_Suvidha +result[i].Leak_Others 
+                CylinderSENDLended += +result[i].Regular_Prima +result[i].Regular_Kamakhya +result[i].Regular_Suvidha +result[i].Regular_Others
+             }
+             if (result[i].SendOrReceive == "Receive"){
+                receiveTotalAmount +=  +result[i].Amount
+                ReceiveLeak += +result[i].Leak_Prima +result[i].Leak_Kamakhya +result[i].Leak_Suvidha +result[i].Leak_Others 
+                CylinderRECEIVELended += +result[i].Regular_Prima +result[i].Regular_Kamakhya +result[i].Regular_Suvidha +result[i].Regular_Others
+                
+                LatestPaid = result[i].Amount
+                LatestTotCylinder = result[i].Regular_Prima +result[i].Regular_Kamakhya +result[i].Regular_Suvidha +result[i].Regular_Others
+            }
+        }
+
+        Rate = LatestPaid / LatestTotCylinder
+
+
+        TotalAmount = sendTotalAmount - receiveTotalAmount
+        TotalLeak = ReceiveLeak - SendLeak
+        CylinderLended = CylinderSENDLended - CylinderRECEIVELended
         
-        console.log("sendTotalAmount")
-        // console.log(sendTotalAmount)
+        console.log("TotalAmount")
+        console.log(TotalAmount)
         res.status(200).json({
-            success:false,
-            message:"Details of stock of Company having ID " + result.CompanyID,
-            data:result
+            success:true,
+            message:"Details of stock of Reseller having ID " + result.ResellerID,
+            Rate: Rate,
+            Amount: TotalAmount,
+            GasSold:Gas_Sold,
+            CylinderSold: Cylinder_Sold,
+            LeakCylinderGiven: TotalLeak,
+            CylinderLended:CylinderLended
+
+
         })
     })
     .catch(function(e)
@@ -140,6 +176,7 @@ router1.get('/company/:id', async function(req,res)
         res.status(500).json({error:e});
     })
 })
+
 
 
 //Updating Stock of Related Company
