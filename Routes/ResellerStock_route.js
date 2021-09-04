@@ -78,6 +78,12 @@ router1.get('/resellerStockList', async function(req,res)
             message:"Reseller Stock List: ",
             data:result
         })
+
+        
+        console.log( "result")
+        console.log( result[0]._id)
+        console.log( "hi")
+
     })
     .catch(function(e)
     {
@@ -96,6 +102,7 @@ router1.get('/resellerStockList/:id', async function(req,res)
     .then(function(result)
     {
         console.log(result);
+        console.log("result");
         res.status(200).json({
             success:true,
             message:"Details of stock of Reseller having ID " + result.ResellerID,
@@ -107,6 +114,80 @@ router1.get('/resellerStockList/:id', async function(req,res)
         res.status(500).json({error:e});
     })
 })
+
+//Show profile of related reseller
+router1.get('/profile/:id', async function(req,res)
+{
+    const id = req.params.id
+    console.log("reseller id : "+id)
+
+    var rate = 0
+    await Reseller.find({_id:id})
+    .then(function(result1)
+    {
+        console.log(result1)
+        rate = result1[0].rateforReseller
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+
+        
+    await ResellerStock.find({ResellerID:id})
+    .then(function(result)
+    {
+        console.log(result);
+       
+
+        var sendTotalAmount = 0
+        var receiveTotalAmount = 0
+        var Gas_Sold = 0
+        var Cylinder_Sold = 0
+        var ReceiveLeak = 0
+        var SendLeak = 0
+        var CylinderSENDLended = 0
+        var CylinderRECEIVELended = 0
+        for (i in result){
+            if (result[i].SendOrReceive == "Send"){
+                sendTotalAmount +=  +result[i].Amount
+                Gas_Sold += +result[i].Regular_Prima +result[i].Regular_Kamakhya +result[i].Regular_Suvidha +result[i].Regular_Others
+                Cylinder_Sold += +result[i].Sold_Prima +result[i].Sold_Kamakhya +result[i].Sold_Suvidha +result[i].Sold_Others
+                SendLeak += +result[i].Leak_Prima +result[i].Leak_Kamakhya +result[i].Leak_Suvidha +result[i].Leak_Others 
+                CylinderSENDLended += +result[i].Regular_Prima +result[i].Regular_Kamakhya +result[i].Regular_Suvidha +result[i].Regular_Others
+             }
+             if (result[i].SendOrReceive == "Receive"){
+                receiveTotalAmount +=  +result[i].Amount
+                ReceiveLeak += +result[i].Leak_Prima +result[i].Leak_Kamakhya +result[i].Leak_Suvidha +result[i].Leak_Others 
+                CylinderRECEIVELended += +result[i].Regular_Prima +result[i].Regular_Kamakhya +result[i].Regular_Suvidha +result[i].Regular_Others
+             }
+        }
+
+        TotalAmount = sendTotalAmount - receiveTotalAmount
+        TotalLeak = ReceiveLeak - SendLeak
+        CylinderLended = CylinderSENDLended - CylinderRECEIVELended
+        
+        console.log("TotalAmount")
+        console.log(TotalAmount)
+        res.status(200).json({
+            success:true,
+            message:"Details of stock of Reseller having ID " + result.ResellerID,
+            Rate:rate,
+            Amount: TotalAmount,
+            GasSold:Gas_Sold,
+            CylinderSold: Cylinder_Sold,
+            LeakCylinderGiven: TotalLeak,
+            CylinderLended:CylinderLended
+
+
+        })
+    })
+    .catch(function(e)
+    {
+        res.status(500).json({error:e});
+    })
+})
+
 
 //Updating Stock of Related Company
 router1.put('/resellerStockList/update/:id', async function(req,res)
