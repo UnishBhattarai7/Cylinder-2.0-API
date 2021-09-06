@@ -92,7 +92,7 @@ router1.get('/companyStockList/:id', async function(req,res)
 {
     const id = req.params.id
 
-    await CompanyStock.findOne({_id:id})
+    await CompanyStock.findOne({CompanyID:id})
     .then(function(result)
     {
         console.log(result);
